@@ -1,279 +1,257 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact — Javier Gutiérrez</title>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --navy: #0D1B2A; --navy-mid: #162435; --navy-light: #1E3448;
-      --cream: #F5F0E8; --cream-dark: #EAE3D6;
-      --orange: #E8600A; --orange-dim: #c45008;
-      --slate: #6B7A8D; --slate-light: #9AAABB; --white: #FFFFFF;
-      --sidebar-w: 260px;
-      --font-display: 'Space Grotesk', sans-serif;
-      --font-body: 'Inter', sans-serif;
+      --bg:#0A0E1A; --bg2:#0F1525; --panel:#111827; --border:#1E3A5F;
+      --accent:#00D4FF; --accent2:#0066CC; --text:#E8EDF5; --muted:#8A9BB5;
+      --success:#00FF9D; --danger:#FF4B4B;
+      --font-disp:'Rajdhani',sans-serif; --font-body:'Inter',sans-serif; --font-mono:'Share Tech Mono',monospace;
     }
-    html { scroll-behavior: smooth; }
-    body { font-family: var(--font-body); background: var(--cream); color: var(--navy); display: flex; min-height: 100vh; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.6;overflow-x:hidden;}
+    a{color:var(--accent);text-decoration:none;}
+    a:hover{text-decoration:underline;}
+    ::-webkit-scrollbar{width:6px;} ::-webkit-scrollbar-track{background:var(--bg);} ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 
-    .sidebar { width: var(--sidebar-w); background: var(--navy); position: fixed; top: 0; left: 0; height: 100vh; display: flex; flex-direction: column; padding: 2rem 1.5rem; z-index: 100; overflow-y: auto; }
-    .sidebar-logo { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; color: var(--cream); letter-spacing: 0.04em; text-decoration: none; display: block; margin-bottom: 0.2rem; }
-    .sidebar-role { font-size: 0.68rem; color: var(--orange); font-family: var(--font-display); font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2.5rem; line-height: 1.4; }
-    .nav-label { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--slate); font-family: var(--font-display); margin-bottom: 0.8rem; font-weight: 600; }
-    nav { display: flex; flex-direction: column; gap: 0.2rem; margin-bottom: auto; }
-    nav a { font-family: var(--font-display); font-size: 0.9rem; font-weight: 500; color: var(--slate-light); text-decoration: none; padding: 0.55rem 0.75rem; border-radius: 6px; border-left: 2px solid transparent; transition: all 0.2s; }
-    nav a:hover, nav a.active { color: var(--cream); background: var(--navy-light); border-left-color: var(--orange); }
-    .lang-toggle { margin-top: 2rem; display: flex; background: var(--navy-mid); border-radius: 8px; padding: 3px; gap: 2px; }
-    .lang-btn { flex: 1; padding: 0.4rem; border: none; background: transparent; color: var(--slate); font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; cursor: pointer; border-radius: 6px; transition: all 0.2s; }
-    .lang-btn.active { background: var(--orange); color: var(--white); }
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:60px;background:rgba(10,14,26,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+    .nav-logo{font-family:var(--font-disp);font-size:1.2rem;font-weight:700;letter-spacing:3px;color:var(--accent);text-transform:uppercase;}
+    .nav-links{display:flex;gap:2rem;align-items:center;list-style:none;}
+    .nav-links a{font-family:var(--font-disp);font-size:0.85rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:color 0.2s;position:relative;}
+    .nav-links a:hover,.nav-links a.active{color:var(--accent);text-decoration:none;}
+    .nav-links a.active::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--accent);}
+    .lang-toggle{display:flex;border:1px solid var(--border);border-radius:3px;overflow:hidden;}
+    .lang-btn{background:none;border:none;color:var(--muted);font-family:var(--font-mono);font-size:0.7rem;letter-spacing:1px;padding:4px 10px;cursor:pointer;transition:all 0.2s;}
+    .lang-btn.active{background:var(--accent);color:var(--bg);font-weight:700;}
+    .lang-btn:not(.active):hover{color:var(--text);background:var(--panel);}
 
-    .main { margin-left: var(--sidebar-w); flex: 1; min-height: 100vh; }
-    .page-header { background: var(--navy); padding: 3.5rem 3.5rem 2.5rem; }
-    .page-header .eyebrow { font-family: var(--font-display); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); font-weight: 600; margin-bottom: 0.75rem; }
-    .page-header h1 { font-family: var(--font-display); font-size: 2.4rem; font-weight: 700; color: var(--cream); letter-spacing: -0.02em; margin-bottom: 0.5rem; }
-    .page-header p { color: var(--slate-light); font-size: 0.95rem; }
+    #starfield{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
 
-    .content { padding: 3rem 3.5rem; max-width: 860px; }
-    .section-title { font-family: var(--font-display); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); font-weight: 600; margin-bottom: 1.25rem; }
+    .page-header{position:relative;z-index:1;padding:120px 2rem 3rem;max-width:960px;margin:0 auto;}
+    .page-badge{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.5rem;}
+    .page-badge::before{content:'';width:24px;height:1px;background:var(--accent);}
+    .page-title{font-family:var(--font-disp);font-size:clamp(2.5rem,6vw,4.5rem);font-weight:700;line-height:0.95;color:var(--text);}
+    .page-title span{color:var(--accent);}
+    .page-line{width:60px;height:2px;background:linear-gradient(90deg,var(--accent),transparent);margin-top:1rem;}
 
-    /* Contact info */
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 3rem; }
-    .contact-item {
-      background: var(--white);
-      border: 1px solid var(--cream-dark);
-      border-radius: 10px;
-      padding: 1.25rem 1.5rem;
-      display: flex; align-items: center; gap: 1rem;
-      text-decoration: none;
-      color: var(--navy);
-      transition: border-color 0.2s, box-shadow 0.2s;
+    main{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 2rem 6rem;}
+
+    /* Contact grid */
+    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+
+    /* Info panel */
+    .info-panel{display:flex;flex-direction:column;gap:1.5rem;}
+    .info-card{border:1px solid var(--border);padding:1.5rem;background:var(--panel);position:relative;transition:border-color 0.2s;}
+    .info-card:hover{border-color:var(--accent);}
+    .info-card-icon{font-size:1.4rem;margin-bottom:0.5rem;}
+    .info-card-label{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:0.3rem;}
+    .info-card-value{font-family:var(--font-disp);font-size:1rem;font-weight:600;color:var(--text);}
+    .info-card-value a{color:var(--accent);}
+
+    /* CV Downloads */
+    .cv-section{margin-top:3rem;}
+    .section-label{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:0.5rem;}
+    .section-title{font-family:var(--font-disp);font-size:clamp(1.8rem,4vw,2.5rem);font-weight:700;color:var(--text);margin-bottom:0.5rem;}
+    .section-line{width:60px;height:2px;background:linear-gradient(90deg,var(--accent),transparent);margin-bottom:2rem;}
+
+    .cv-cards{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+    .cv-card{border:1px solid var(--border);background:var(--panel);padding:2rem;position:relative;transition:border-color 0.3s;}
+    .cv-card:hover{border-color:var(--accent);}
+    .cv-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),transparent);transform:scaleX(0);transform-origin:left;transition:transform 0.3s;}
+    .cv-card:hover::before{transform:scaleX(1);}
+    .cv-flag{font-size:2rem;margin-bottom:0.75rem;}
+    .cv-lang-label{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:0.3rem;}
+    .cv-title{font-family:var(--font-disp);font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:0.5rem;}
+    .cv-desc{font-size:0.8rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.5;}
+    .btn-dl{display:inline-flex;align-items:center;gap:0.5rem;font-family:var(--font-disp);font-size:0.78rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:9px 20px;border:1px solid var(--accent);color:var(--accent);background:transparent;cursor:pointer;transition:all 0.2s;}
+    .btn-dl:hover{background:var(--accent);color:var(--bg);text-decoration:none;}
+
+    /* Form panel */
+    .form-panel{border:1px solid var(--border);padding:2rem;background:var(--panel);position:relative;}
+    .form-corner{position:absolute;width:10px;height:10px;border-color:var(--accent);border-style:solid;}
+    .form-corner.tl{top:-1px;left:-1px;border-width:2px 0 0 2px;}
+    .form-corner.tr{top:-1px;right:-1px;border-width:2px 2px 0 0;}
+    .form-corner.bl{bottom:-1px;left:-1px;border-width:0 0 2px 2px;}
+    .form-corner.br{bottom:-1px;right:-1px;border-width:0 2px 2px 0;}
+    .form-header{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:1.5rem;}
+    .form-group{margin-bottom:1.25rem;}
+    .form-label{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:3px;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:0.4rem;}
+    .form-input,.form-textarea{
+      width:100%;background:var(--bg2);border:1px solid var(--border);
+      color:var(--text);font-family:var(--font-body);font-size:0.88rem;
+      padding:0.6rem 0.8rem;outline:none;transition:border-color 0.2s;
     }
-    .contact-item:hover { border-color: var(--orange); box-shadow: 0 2px 12px rgba(232,96,10,0.1); }
-    .contact-icon {
-      width: 40px; height: 40px; border-radius: 8px;
-      background: var(--navy); display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .contact-icon svg { color: var(--orange); }
-    .contact-info-label { font-family: var(--font-display); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--slate); font-weight: 600; margin-bottom: 0.2rem; }
-    .contact-info-val { font-family: var(--font-display); font-size: 0.9rem; font-weight: 600; color: var(--navy); }
+    .form-input:focus,.form-textarea:focus{border-color:var(--accent);}
+    .form-textarea{resize:vertical;min-height:120px;}
+    .btn-send{font-family:var(--font-disp);font-size:0.82rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:11px 28px;background:var(--accent);color:var(--bg);border:1px solid var(--accent);cursor:pointer;transition:all 0.2s;width:100%;}
+    .btn-send:hover{background:transparent;color:var(--accent);}
+    .form-note{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:1px;color:var(--muted);margin-top:0.75rem;text-align:center;}
 
-    /* Documents */
-    .docs-list { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 3rem; }
-    .doc-item {
-      background: var(--white);
-      border: 1px solid var(--cream-dark);
-      border-radius: 10px;
-      padding: 1.1rem 1.5rem;
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 1rem;
-    }
-    .doc-left { display: flex; align-items: center; gap: 0.85rem; }
-    .doc-icon { width: 36px; height: 36px; background: rgba(232,96,10,0.1); border-radius: 7px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .doc-name { font-family: var(--font-display); font-size: 0.9rem; font-weight: 600; color: var(--navy); }
-    .doc-type { font-size: 0.75rem; color: var(--slate); margin-top: 0.1rem; }
-    .doc-btn {
-      display: inline-flex; align-items: center; gap: 0.45rem;
-      font-family: var(--font-display); font-size: 0.78rem; font-weight: 600;
-      padding: 0.4rem 0.9rem; border-radius: 6px; text-decoration: none;
-      transition: all 0.2s; white-space: nowrap; flex-shrink: 0;
-    }
-    .doc-btn.available { background: var(--navy); color: var(--cream); }
-    .doc-btn.available:hover { background: var(--orange); }
-    .doc-btn.unavailable { background: var(--cream-dark); color: var(--slate); cursor: default; }
+    footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:2rem;text-align:center;font-family:var(--font-mono);font-size:0.65rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase;}
 
-    .hamburger { display: none; position: fixed; top: 1rem; left: 1rem; z-index: 200; background: var(--navy); border: none; padding: 0.5rem; border-radius: 6px; cursor: pointer; flex-direction: column; gap: 4px; }
-    .hamburger span { display: block; width: 22px; height: 2px; background: var(--cream); border-radius: 2px; }
-    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 90; }
+    [data-en],[data-es]{display:none;}
+    html[data-lang="en"] [data-en]{display:block;}
+    html[data-lang="es"] [data-es]{display:block;}
+    html[data-lang="en"] [data-en].inline,html[data-lang="es"] [data-es].inline{display:inline;}
+    html[data-lang="en"] [data-en].flex,html[data-lang="es"] [data-es].flex{display:flex;}
+    html[data-lang="en"] [data-en].grid,html[data-lang="es"] [data-es].grid{display:grid;}
 
-    @media (max-width: 768px) {
-      .hamburger { display: flex; }
-      .sidebar { transform: translateX(-100%); transition: transform 0.3s ease; }
-      .sidebar.open { transform: translateX(0); }
-      .sidebar-overlay.open { display: block; }
-      .main { margin-left: 0; padding-top: 3.5rem; }
-      .page-header { padding: 2rem 1.5rem 1.5rem; }
-      .content { padding: 2rem 1.5rem; }
-      .contact-grid { grid-template-columns: 1fr; }
+    @media(max-width:768px){
+      nav{padding:0 1rem;}.nav-links{gap:1rem;}.nav-links a{font-size:0.75rem;letter-spacing:1px;}
+      .contact-grid{grid-template-columns:1fr;}
+      .cv-cards{grid-template-columns:1fr;}
     }
   </style>
 </head>
 <body>
+<canvas id="starfield"></canvas>
 
-<button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
-<div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
-
-<aside class="sidebar" id="sidebar">
-  <a href="index.html" class="sidebar-logo">Javier Gutiérrez</a>
-  <div class="sidebar-role">Test Method Development &amp;<br>Validation Engineer</div>
-  <div class="nav-label">Navigation</div>
-  <nav>
-    <a href="index.html" data-key="nav.home">Home</a>
-    <a href="education.html" data-key="nav.education">Education</a>
-    <a href="projects.html" data-key="nav.projects">Projects</a>
-    <a href="contact.html" class="active" data-key="nav.contact">Contact</a>
-  </nav>
+<nav>
+  <div class="nav-logo">J·G·R</div>
+  <ul class="nav-links">
+    <li><a href="index.html" data-en>Home</a><a href="index.html" data-es>Inicio</a></li>
+    <li><a href="education.html" data-en>Education</a><a href="education.html" data-es>Formación</a></li>
+    <li><a href="projects.html" data-en>Projects</a><a href="projects.html" data-es>Proyectos</a></li>
+    <li><a href="contact.html" class="active" data-en>Contact</a><a href="contact.html" class="active" data-es>Contacto</a></li>
+  </ul>
   <div class="lang-toggle">
-    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
-    <button class="lang-btn" id="btn-es" onclick="setLang('es')">ES</button>
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('es')">ES</button>
   </div>
-</aside>
+</nav>
 
-<main class="main">
-  <div class="page-header">
-    <div class="eyebrow">Get in touch</div>
-    <h1 id="page-title">Contact</h1>
-    <p id="page-sub">Get in touch</p>
-  </div>
+<div class="page-header">
+  <div class="page-badge"><span data-en>Get in Touch</span><span data-es>Ponte en Contacto</span></div>
+  <h1 class="page-title" data-en>Con<span>tact</span></h1>
+  <h1 class="page-title" data-es>Con<span>tacto</span></h1>
+  <div class="page-line"></div>
+</div>
 
-  <div class="content">
-    <div class="section-title" id="contact-label">Contact Information</div>
-    <div class="contact-grid">
-      <a href="tel:+34601275055" class="contact-item">
-        <div class="contact-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.09 6.09l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+<main>
+  <div class="contact-grid">
+
+    <!-- LEFT: info + form -->
+    <div>
+      <div class="info-panel">
+        <div class="info-card">
+          <div class="info-card-icon">📍</div>
+          <div class="info-card-label" data-en>Location</div>
+          <div class="info-card-label" data-es>Ubicación</div>
+          <div class="info-card-value">Valladolid, Spain</div>
         </div>
-        <div>
-          <div class="contact-info-label" id="lbl-phone">Phone</div>
-          <div class="contact-info-val">+34 601 27 50 55</div>
+        <div class="info-card">
+          <div class="info-card-icon">✉️</div>
+          <div class="info-card-label">Email</div>
+          <div class="info-card-value"><a href="mailto:jgutierrezr.2003@gmail.com">jgutierrezr.2003@gmail.com</a></div>
         </div>
-      </a>
-      <a href="mailto:jgutierrezr.2003@gmail.com" class="contact-item">
-        <div class="contact-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <div class="info-card">
+          <div class="info-card-icon">📞</div>
+          <div class="info-card-label" data-en>Phone</div>
+          <div class="info-card-label" data-es>Teléfono</div>
+          <div class="info-card-value"><a href="tel:+34601275055">+34 601 27 50 55</a></div>
         </div>
-        <div>
-          <div class="contact-info-label" id="lbl-email">Email</div>
-          <div class="contact-info-val">jgutierrezr.2003@gmail.com</div>
-        </div>
-      </a>
-      <a href="https://linkedin.com/in/jgutierrezr2003" target="_blank" class="contact-item">
-        <div class="contact-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-        </div>
-        <div>
-          <div class="contact-info-label">LinkedIn</div>
-          <div class="contact-info-val">jgutierrezr2003</div>
-        </div>
-      </a>
-      <div class="contact-item" style="cursor:default;">
-        <div class="contact-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        </div>
-        <div>
-          <div class="contact-info-label" id="lbl-location">Location</div>
-          <div class="contact-info-val" id="val-location">Valladolid, Spain</div>
+        <div class="info-card">
+          <div class="info-card-icon">🔗</div>
+          <div class="info-card-label">LinkedIn</div>
+          <div class="info-card-value"><a href="https://linkedin.com/in/jgutierrezr2003" target="_blank">linkedin.com/in/jgutierrezr2003</a></div>
         </div>
       </div>
     </div>
 
-    <div class="section-title" id="docs-label">Documents</div>
-    <div class="docs-list">
-      <div class="doc-item">
-        <div class="doc-left">
-          <div class="doc-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8600A" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
-          </div>
-          <div>
-            <div class="doc-name" id="doc-cv-en-name">CV — English</div>
-            <div class="doc-type">PDF</div>
-          </div>
+    <!-- RIGHT: form -->
+    <div class="form-panel">
+      <div class="form-corner tl"></div><div class="form-corner tr"></div>
+      <div class="form-corner bl"></div><div class="form-corner br"></div>
+      <div class="form-header" data-en>// SEND A MESSAGE</div>
+      <div class="form-header" data-es>// ENVIAR MENSAJE</div>
+
+      <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <div class="form-group">
+          <label class="form-label" for="name" data-en>Name</label>
+          <label class="form-label" for="name" data-es>Nombre</label>
+          <input class="form-input" type="text" id="name" name="name" required placeholder="John Doe" />
         </div>
-        <a id="btn-cv-en" href="#" class="doc-btn unavailable" target="_blank">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          <span id="txt-cv-en">Download</span>
+        <div class="form-group">
+          <label class="form-label" for="email">Email</label>
+          <input class="form-input" type="email" id="email" name="email" required placeholder="your@email.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="subject" data-en>Subject</label>
+          <label class="form-label" for="subject" data-es>Asunto</label>
+          <input class="form-input" type="text" id="subject" name="subject" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="message" data-en>Message</label>
+          <label class="form-label" for="message" data-es>Mensaje</label>
+          <textarea class="form-textarea" id="message" name="message" required></textarea>
+        </div>
+        <button type="submit" class="btn-send" data-en>TRANSMIT MESSAGE</button>
+        <button type="submit" class="btn-send" data-es>ENVIAR MENSAJE</button>
+        <p class="form-note" data-en>Replace YOUR_FORM_ID with your Formspree form ID</p>
+        <p class="form-note" data-es>Reemplaza YOUR_FORM_ID con tu ID de formulario de Formspree</p>
+      </form>
+    </div>
+  </div>
+
+  <!-- CV DOWNLOADS -->
+  <div class="cv-section">
+    <p class="section-label" data-en>// CURRICULUM VITAE</p>
+    <p class="section-label" data-es>// CURRICULUM VITAE</p>
+    <h2 class="section-title" data-en>Download CV</h2>
+    <h2 class="section-title" data-es>Descargar CV</h2>
+    <div class="section-line"></div>
+
+    <div class="cv-cards">
+      <div class="cv-card">
+        <div class="cv-flag">🇬🇧</div>
+        <div class="cv-lang-label">English Version</div>
+        <div class="cv-title">Curriculum Vitae</div>
+        <p class="cv-desc">Full CV in English — updated 2025. Includes experience, education, skills and competencies.</p>
+        <a href="../documents/English_CV.pdf" download class="btn-dl">
+          <span>⬇</span> Download EN
         </a>
       </div>
-      <div class="doc-item">
-        <div class="doc-left">
-          <div class="doc-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8600A" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
-          </div>
-          <div>
-            <div class="doc-name" id="doc-cv-es-name">CV — Spanish</div>
-            <div class="doc-type">PDF</div>
-          </div>
-        </div>
-        <a id="btn-cv-es" href="#" class="doc-btn unavailable" target="_blank">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          <span id="txt-cv-es">Download</span>
-        </a>
-      </div>
-      <div class="doc-item">
-        <div class="doc-left">
-          <div class="doc-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8600A" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
-          </div>
-          <div>
-            <div class="doc-name" id="doc-cover-name">Cover Letter</div>
-            <div class="doc-type">PDF</div>
-          </div>
-        </div>
-        <a id="btn-cover" href="#" class="doc-btn unavailable" target="_blank">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          <span id="txt-cover">Download</span>
+      <div class="cv-card">
+        <div class="cv-flag">🇪🇸</div>
+        <div class="cv-lang-label">Versión en Español</div>
+        <div class="cv-title">Curriculum Vitae</div>
+        <p class="cv-desc">CV completo en español — actualizado 2025. Incluye experiencia, formación, habilidades y competencias.</p>
+        <!-- Place Spanish CV as documents/Spanish_CV.pdf -->
+        <a href="../documents/Spanish_CV.pdf" download class="btn-dl">
+          <span>⬇</span> Descargar ES
         </a>
       </div>
     </div>
   </div>
 </main>
 
-<script src="../data/translations.js"></script>
+<footer>
+  <p>© 2025 Javier Gutiérrez Rodríguez · <span data-en>All rights reserved</span><span data-es>Todos los derechos reservados</span></p>
+</footer>
+
 <script>
-  let currentLang = localStorage.getItem('lang') || 'en';
-  function setLang(lang) { currentLang = lang; localStorage.setItem('lang', lang); applyLang(); }
+  const canvas=document.getElementById('starfield');
+  const ctx=canvas.getContext('2d');
+  let W,H,stars=[];
+  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+  function initStars(){stars=Array.from({length:120},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+0.2,a:Math.random(),speed:Math.random()*0.003+0.001}));}
+  function drawStars(){ctx.clearRect(0,0,W,H);stars.forEach(s=>{s.a+=s.speed;const alpha=(Math.sin(s.a)*0.5+0.5)*0.7+0.1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(0,212,255,${alpha})`;ctx.fill();});requestAnimationFrame(drawStars);}
+  window.addEventListener('resize',()=>{resize();initStars();});
+  resize();initStars();drawStars();
 
-  function setupDocBtn(btnId, path, downloadText, naText) {
-    const btn = document.getElementById(btnId);
-    if (path && path !== '') {
-      btn.href = '../' + path;
-      btn.className = 'doc-btn available';
-      btn.querySelector('span').textContent = downloadText;
-    } else {
-      btn.href = '#';
-      btn.className = 'doc-btn unavailable';
-      btn.querySelector('span').textContent = naText;
-      btn.onclick = e => e.preventDefault();
-    }
+  function setLang(lang){
+    document.documentElement.setAttribute('data-lang',lang);
+    localStorage.setItem('lang',lang);
+    document.querySelectorAll('.lang-btn').forEach(b=>{b.classList.toggle('active',b.textContent===lang.toUpperCase());});
   }
-
-  function applyLang() {
-    const t = TRANSLATIONS[currentLang];
-    document.documentElement.lang = currentLang;
-    document.getElementById('btn-en').classList.toggle('active', currentLang === 'en');
-    document.getElementById('btn-es').classList.toggle('active', currentLang === 'es');
-    const c = t.contact;
-    document.getElementById('page-title').textContent = c.title;
-    document.getElementById('page-sub').textContent = c.subtitle;
-    document.getElementById('contact-label').textContent = currentLang === 'en' ? 'Contact Information' : 'Información de contacto';
-    document.getElementById('lbl-phone').textContent = c.phone;
-    document.getElementById('lbl-email').textContent = c.email;
-    document.getElementById('lbl-location').textContent = c.location;
-    document.getElementById('val-location').textContent = c.location_val;
-    document.getElementById('docs-label').textContent = c.docs_title;
-    document.getElementById('doc-cv-en-name').textContent = c.cv_en;
-    document.getElementById('doc-cv-es-name').textContent = c.cv_es;
-    document.getElementById('doc-cover-name').textContent = c.cover;
-
-    setupDocBtn('btn-cv-en', CONFIG.cv_en, c.download, c.not_available);
-    setupDocBtn('btn-cv-es', CONFIG.cv_es, c.download, c.not_available);
-    setupDocBtn('btn-cover', CONFIG.cover_letter, c.download, c.not_available);
-
-    document.querySelectorAll('nav a[data-key]').forEach(a => {
-      const keys = a.dataset.key.split('.');
-      a.textContent = t[keys[0]][keys[1]];
-    });
-  }
-
-  function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('open');
-    document.getElementById('overlay').classList.toggle('open');
-  }
-
-  applyLang();
+  const saved=localStorage.getItem('lang')||'en';
+  setLang(saved);
 </script>
 </body>
 </html>

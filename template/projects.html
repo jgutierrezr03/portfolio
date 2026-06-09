@@ -1,219 +1,247 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Projects — Javier Gutiérrez</title>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --navy: #0D1B2A; --navy-mid: #162435; --navy-light: #1E3448;
-      --cream: #F5F0E8; --cream-dark: #EAE3D6;
-      --orange: #E8600A; --orange-dim: #c45008;
-      --slate: #6B7A8D; --slate-light: #9AAABB; --white: #FFFFFF;
-      --sidebar-w: 260px;
-      --font-display: 'Space Grotesk', sans-serif;
-      --font-body: 'Inter', sans-serif;
+      --bg:#0A0E1A; --bg2:#0F1525; --panel:#111827; --border:#1E3A5F;
+      --accent:#00D4FF; --accent2:#0066CC; --text:#E8EDF5; --muted:#8A9BB5;
+      --success:#00FF9D;
+      --font-disp:'Rajdhani',sans-serif; --font-body:'Inter',sans-serif; --font-mono:'Share Tech Mono',monospace;
     }
-    html { scroll-behavior: smooth; }
-    body { font-family: var(--font-body); background: var(--cream); color: var(--navy); display: flex; min-height: 100vh; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.6;overflow-x:hidden;}
+    a{color:var(--accent);text-decoration:none;}
+    a:hover{text-decoration:underline;}
+    ::-webkit-scrollbar{width:6px;} ::-webkit-scrollbar-track{background:var(--bg);} ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 
-    .sidebar { width: var(--sidebar-w); background: var(--navy); position: fixed; top: 0; left: 0; height: 100vh; display: flex; flex-direction: column; padding: 2rem 1.5rem; z-index: 100; overflow-y: auto; }
-    .sidebar-logo { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; color: var(--cream); letter-spacing: 0.04em; text-decoration: none; display: block; margin-bottom: 0.2rem; }
-    .sidebar-role { font-size: 0.68rem; color: var(--orange); font-family: var(--font-display); font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2.5rem; line-height: 1.4; }
-    .nav-label { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--slate); font-family: var(--font-display); margin-bottom: 0.8rem; font-weight: 600; }
-    nav { display: flex; flex-direction: column; gap: 0.2rem; margin-bottom: auto; }
-    nav a { font-family: var(--font-display); font-size: 0.9rem; font-weight: 500; color: var(--slate-light); text-decoration: none; padding: 0.55rem 0.75rem; border-radius: 6px; border-left: 2px solid transparent; transition: all 0.2s; }
-    nav a:hover, nav a.active { color: var(--cream); background: var(--navy-light); border-left-color: var(--orange); }
-    .lang-toggle { margin-top: 2rem; display: flex; background: var(--navy-mid); border-radius: 8px; padding: 3px; gap: 2px; }
-    .lang-btn { flex: 1; padding: 0.4rem; border: none; background: transparent; color: var(--slate); font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; cursor: pointer; border-radius: 6px; transition: all 0.2s; }
-    .lang-btn.active { background: var(--orange); color: var(--white); }
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:60px;background:rgba(10,14,26,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+    .nav-logo{font-family:var(--font-disp);font-size:1.2rem;font-weight:700;letter-spacing:3px;color:var(--accent);text-transform:uppercase;}
+    .nav-links{display:flex;gap:2rem;align-items:center;list-style:none;}
+    .nav-links a{font-family:var(--font-disp);font-size:0.85rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:color 0.2s;position:relative;}
+    .nav-links a:hover,.nav-links a.active{color:var(--accent);text-decoration:none;}
+    .nav-links a.active::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--accent);}
+    .lang-toggle{display:flex;border:1px solid var(--border);border-radius:3px;overflow:hidden;}
+    .lang-btn{background:none;border:none;color:var(--muted);font-family:var(--font-mono);font-size:0.7rem;letter-spacing:1px;padding:4px 10px;cursor:pointer;transition:all 0.2s;}
+    .lang-btn.active{background:var(--accent);color:var(--bg);font-weight:700;}
+    .lang-btn:not(.active):hover{color:var(--text);background:var(--panel);}
 
-    .main { margin-left: var(--sidebar-w); flex: 1; min-height: 100vh; }
-    .page-header { background: var(--navy); padding: 3.5rem 3.5rem 2.5rem; }
-    .page-header .eyebrow { font-family: var(--font-display); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); font-weight: 600; margin-bottom: 0.75rem; }
-    .page-header h1 { font-family: var(--font-display); font-size: 2.4rem; font-weight: 700; color: var(--cream); letter-spacing: -0.02em; margin-bottom: 0.5rem; }
-    .page-header p { color: var(--slate-light); font-size: 0.95rem; }
+    #starfield{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
 
-    .content { padding: 3rem 3.5rem; max-width: 900px; }
+    .page-header{position:relative;z-index:1;padding:120px 2rem 3rem;max-width:960px;margin:0 auto;}
+    .page-badge{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.5rem;}
+    .page-badge::before{content:'';width:24px;height:1px;background:var(--accent);}
+    .page-title{font-family:var(--font-disp);font-size:clamp(2.5rem,6vw,4.5rem);font-weight:700;line-height:0.95;color:var(--text);}
+    .page-title span{color:var(--accent);}
+    .page-line{width:60px;height:2px;background:linear-gradient(90deg,var(--accent),transparent);margin-top:1rem;}
 
-    /* Project cards */
-    .projects-list { display: flex; flex-direction: column; gap: 1.5rem; }
-    .project-card {
-      background: var(--white);
-      border: 1px solid var(--cream-dark);
-      border-radius: 12px;
-      overflow: hidden;
-      transition: box-shadow 0.2s;
+    main{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 2rem 6rem;}
+
+    /* Projects grid */
+    .projects-grid{display:grid;gap:2rem;}
+
+    .project-card{border:1px solid var(--border);background:var(--panel);position:relative;transition:border-color 0.3s;overflow:hidden;}
+    .project-card:hover{border-color:var(--accent);}
+    .project-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),transparent);transform:scaleX(0);transform-origin:left;transition:transform 0.3s;}
+    .project-card:hover::before{transform:scaleX(1);}
+
+    .project-inner{display:grid;grid-template-columns:1fr auto;gap:2rem;padding:2rem;align-items:start;}
+    .project-num{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:3px;color:var(--accent);margin-bottom:0.5rem;text-transform:uppercase;}
+    .project-title{font-family:var(--font-disp);font-size:1.6rem;font-weight:700;color:var(--text);margin-bottom:0.3rem;}
+    .project-org{font-family:var(--font-mono);font-size:0.7rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:1rem;}
+    .project-desc{color:var(--muted);font-size:0.9rem;line-height:1.7;margin-bottom:1rem;}
+    .project-tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1.5rem;}
+    .tag{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:2px;color:var(--accent);border:1px solid rgba(0,212,255,0.3);padding:3px 8px;text-transform:uppercase;}
+
+    .project-actions{display:flex;gap:0.75rem;flex-wrap:wrap;}
+    .btn-sm{font-family:var(--font-disp);font-size:0.72rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:7px 16px;border:1px solid var(--accent);color:var(--accent);background:transparent;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:0.4rem;}
+    .btn-sm:hover{background:var(--accent);color:var(--bg);text-decoration:none;}
+    .btn-sm.solid{background:var(--accent);color:var(--bg);}
+    .btn-sm.solid:hover{background:transparent;color:var(--accent);}
+
+    .project-badge{
+      font-family:var(--font-mono);font-size:0.6rem;letter-spacing:2px;
+      color:var(--success);border:1px solid rgba(0,255,157,0.3);
+      padding:4px 10px;text-transform:uppercase;white-space:nowrap;
+      height:fit-content;
     }
-    .project-card:hover { box-shadow: 0 4px 20px rgba(13,27,42,0.08); }
-    .project-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      padding: 1.5rem 1.75rem 1rem;
-      border-bottom: 1px solid var(--cream-dark);
-    }
-    .proj-meta { flex: 1; }
-    .proj-date { font-family: var(--font-display); font-size: 0.7rem; color: var(--orange); font-weight: 600; letter-spacing: 0.08em; margin-bottom: 0.4rem; }
-    .proj-title { font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--navy); margin-bottom: 0.2rem; }
-    .proj-org { font-size: 0.8rem; color: var(--slate); font-weight: 500; }
-    .proj-num {
-      font-family: var(--font-display);
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: var(--cream-dark);
-      line-height: 1;
-      margin-left: 1rem;
-      flex-shrink: 0;
-    }
-    .project-card-body { padding: 1rem 1.75rem 1.5rem; }
-    .proj-desc { font-size: 0.9rem; line-height: 1.75; color: #2a3a4e; margin-bottom: 1rem; }
-    .proj-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
-    .proj-tag { font-family: var(--font-display); font-size: 0.72rem; font-weight: 500; background: var(--cream); color: var(--navy); padding: 0.2rem 0.55rem; border-radius: 4px; border: 1px solid var(--cream-dark); }
-    .proj-footer { display: flex; align-items: center; gap: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--cream-dark); }
-    .pdf-link {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      font-family: var(--font-display); font-size: 0.8rem; font-weight: 600;
-      color: var(--white); background: var(--orange);
-      padding: 0.45rem 1rem; border-radius: 6px; text-decoration: none;
-      transition: background 0.2s;
-    }
-    .pdf-link:hover { background: var(--orange-dim); }
-    .pdf-link svg { flex-shrink: 0; }
-    .no-pdf { font-family: var(--font-display); font-size: 0.8rem; color: var(--slate); display: flex; align-items: center; gap: 0.4rem; }
+    .project-badge.wip{color:#FFB347;border-color:rgba(255,179,71,0.3);}
 
-    /* Add project hint */
-    .add-hint {
-      margin-top: 2rem;
-      background: rgba(232,96,10,0.06);
-      border: 1px dashed rgba(232,96,10,0.3);
-      border-radius: 10px;
-      padding: 1.25rem 1.5rem;
-      font-size: 0.85rem;
-      color: var(--slate);
-      line-height: 1.6;
-    }
-    .add-hint strong { color: var(--orange-dim); }
+    /* PDF zone */
+    .pdf-zone{border-top:1px solid var(--border);padding:1.25rem 2rem;background:rgba(0,212,255,0.03);display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+    .pdf-icon{font-size:1.2rem;color:var(--accent);}
+    .pdf-name{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:2px;color:var(--muted);flex:1;}
+    .pdf-placeholder{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:2px;color:var(--border);font-style:italic;}
 
-    .hamburger { display: none; position: fixed; top: 1rem; left: 1rem; z-index: 200; background: var(--navy); border: none; padding: 0.5rem; border-radius: 6px; cursor: pointer; flex-direction: column; gap: 4px; }
-    .hamburger span { display: block; width: 22px; height: 2px; background: var(--cream); border-radius: 2px; }
-    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 90; }
+    footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:2rem;text-align:center;font-family:var(--font-mono);font-size:0.65rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase;}
 
-    @media (max-width: 768px) {
-      .hamburger { display: flex; }
-      .sidebar { transform: translateX(-100%); transition: transform 0.3s ease; }
-      .sidebar.open { transform: translateX(0); }
-      .sidebar-overlay.open { display: block; }
-      .main { margin-left: 0; padding-top: 3.5rem; }
-      .page-header { padding: 2rem 1.5rem 1.5rem; }
-      .content { padding: 2rem 1.5rem; }
-      .project-card-header { flex-direction: column; }
-      .proj-num { display: none; }
+    [data-en],[data-es]{display:none;}
+    html[data-lang="en"] [data-en]{display:block;}
+    html[data-lang="es"] [data-es]{display:block;}
+    html[data-lang="en"] [data-en].inline,html[data-lang="es"] [data-es].inline{display:inline;}
+    html[data-lang="en"] [data-en].flex,html[data-lang="es"] [data-es].flex{display:flex;}
+    html[data-lang="en"] [data-en].grid,html[data-lang="es"] [data-es].grid{display:grid;}
+
+    @media(max-width:768px){
+      nav{padding:0 1rem;}.nav-links{gap:1rem;}.nav-links a{font-size:0.75rem;letter-spacing:1px;}
+      .project-inner{grid-template-columns:1fr;}
     }
   </style>
 </head>
 <body>
+<canvas id="starfield"></canvas>
 
-<button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
-<div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
-
-<aside class="sidebar" id="sidebar">
-  <a href="index.html" class="sidebar-logo">Javier Gutiérrez</a>
-  <div class="sidebar-role">Test Method Development &amp;<br>Validation Engineer</div>
-  <div class="nav-label">Navigation</div>
-  <nav>
-    <a href="index.html" data-key="nav.home">Home</a>
-    <a href="education.html" data-key="nav.education">Education</a>
-    <a href="projects.html" class="active" data-key="nav.projects">Projects</a>
-    <a href="contact.html" data-key="nav.contact">Contact</a>
-  </nav>
+<nav>
+  <div class="nav-logo">J·G·R</div>
+  <ul class="nav-links">
+    <li><a href="index.html" data-en>Home</a><a href="index.html" data-es>Inicio</a></li>
+    <li><a href="education.html" data-en>Education</a><a href="education.html" data-es>Formación</a></li>
+    <li><a href="projects.html" class="active" data-en>Projects</a><a href="projects.html" class="active" data-es>Proyectos</a></li>
+    <li><a href="contact.html" data-en>Contact</a><a href="contact.html" data-es>Contacto</a></li>
+  </ul>
   <div class="lang-toggle">
-    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
-    <button class="lang-btn" id="btn-es" onclick="setLang('es')">ES</button>
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('es')">ES</button>
   </div>
-</aside>
+</nav>
 
-<main class="main">
-  <div class="page-header">
-    <div class="eyebrow">Work &amp; Research</div>
-    <h1 id="page-title">Projects</h1>
-    <p id="page-sub">Academic and professional work</p>
-  </div>
+<div class="page-header">
+  <div class="page-badge"><span data-en>Engineering Work</span><span data-es>Trabajo de Ingeniería</span></div>
+  <h1 class="page-title" data-en>Pro<span>jects</span></h1>
+  <h1 class="page-title" data-es>Pro<span>yectos</span></h1>
+  <div class="page-line"></div>
+</div>
 
-  <div class="content">
-    <div class="projects-list" id="projects-list">
-      <!-- Rendered by JS -->
+<main>
+  <div class="projects-grid">
+
+    <!-- PROJECT 1 -->
+    <div class="project-card">
+      <div class="project-inner">
+        <div>
+          <div class="project-num">// PROJECT 01</div>
+          <h2 class="project-title" data-en>ICE &amp; Hybrid Engine Test Methods</h2>
+          <h2 class="project-title" data-es>Métodos de Ensayo en Motores ICE e Híbridos</h2>
+          <div class="project-org">HORSE R&amp;D&amp;I · Nov 2025 – <span data-en>Present</span><span data-es>Actualidad</span></div>
+          <p class="project-desc" data-en>Development and implementation of durability test methods for mechanical validation of internal combustion, mild-hybrid and hybrid engines. Includes calibration and tuning method development, and technical definition, configuration and commissioning of engine and powertrain test beds across new development and upgrade projects.</p>
+          <p class="project-desc" data-es>Desarrollo e implementación de métodos de ensayo de durabilidad para la validación mecánica de motores de combustión interna, mild-hybrid e híbridos. Incluye desarrollo de métodos de calibración y ajuste, así como la definición técnica, configuración y puesta en marcha de bancos de ensayo de motores y transmisiones en proyectos nuevos y de actualización.</p>
+          <div class="project-tags">
+            <span class="tag">AVL Puma Open 2</span><span class="tag">AVL Navigator</span>
+            <span class="tag">ICE Validation</span><span class="tag">Hybrid Powertrain</span>
+            <span class="tag">Test Bench</span><span class="tag">Durability</span>
+          </div>
+          <div class="project-actions">
+            <!-- PDF link: update path when file is added to documents/ -->
+            <a href="../documents/project_horse_rdi.pdf" class="btn-sm" target="_blank">
+              <span>⬇</span>
+              <span data-en>Download Report</span>
+              <span data-es>Descargar Informe</span>
+            </a>
+          </div>
+        </div>
+        <div class="project-badge" data-en>Active</div>
+        <div class="project-badge" data-es>Activo</div>
+      </div>
+      <div class="pdf-zone">
+        <span class="pdf-icon">📄</span>
+        <span class="pdf-name" data-en>project_horse_rdi.pdf — Place file in /documents/</span>
+        <span class="pdf-name" data-es>project_horse_rdi.pdf — Coloca el archivo en /documents/</span>
+      </div>
     </div>
 
-    <div class="add-hint" id="add-hint">
-      <strong>📎 Adding PDFs to projects:</strong> Upload your PDF files to the <code>documents/</code> folder, then edit <code>data/translations.js</code> and set the <code>pdf</code> field of each project to the relative path of the file (e.g. <code>"../documents/my-report.pdf"</code>).
+    <!-- PROJECT 2 -->
+    <div class="project-card">
+      <div class="project-inner">
+        <div>
+          <div class="project-num">// PROJECT 02</div>
+          <h2 class="project-title" data-en>Combustion Image Processing</h2>
+          <h2 class="project-title" data-es>Procesamiento de Imágenes de Combustión</h2>
+          <div class="project-org">Universidad Carlos III de Madrid · Jan–Sept 2025</div>
+          <p class="project-desc" data-en>Development of MATLAB code applying image processing techniques to videos from hydrogen and methane combustion experiments in a Hele-Shaw cell. Implementation of advanced digital processing functions focused on edge detection to extract flame front characteristics and quantify combustion behaviour.</p>
+          <p class="project-desc" data-es>Desarrollo de código MATLAB que aplica técnicas de procesamiento de imágenes a vídeos de experimentos de combustión de hidrógeno y metano en una celda Hele-Shaw. Implementación de funciones de procesamiento digital avanzado centradas en la detección de bordes para extraer características del frente de llama y cuantificar el comportamiento de la combustión.</p>
+          <div class="project-tags">
+            <span class="tag">MATLAB</span><span class="tag">Image Processing</span>
+            <span class="tag">Edge Detection</span><span class="tag">Combustion</span>
+            <span class="tag">Hydrogen</span><span class="tag">Hele-Shaw Cell</span>
+          </div>
+          <div class="project-actions">
+            <a href="../documents/project_image_processing.pdf" class="btn-sm" target="_blank">
+              <span>⬇</span>
+              <span data-en>Download Report</span>
+              <span data-es>Descargar Informe</span>
+            </a>
+          </div>
+        </div>
+        <div class="project-badge">UC3M</div>
+      </div>
+      <div class="pdf-zone">
+        <span class="pdf-icon">📄</span>
+        <span class="pdf-name" data-en>project_image_processing.pdf — Place file in /documents/</span>
+        <span class="pdf-name" data-es>project_image_processing.pdf — Coloca el archivo en /documents/</span>
+      </div>
     </div>
+
+    <!-- PROJECT 3 -->
+    <div class="project-card">
+      <div class="project-inner">
+        <div>
+          <div class="project-num">// PROJECT 03</div>
+          <h2 class="project-title" data-en>Single-Seater Chassis Design &amp; FEM</h2>
+          <h2 class="project-title" data-es>Diseño de Chasis Monoplaza y FEM</h2>
+          <div class="project-org">Universidad Carlos III de Madrid · Sept–Dec 2025</div>
+          <p class="project-desc" data-en>Design of a single-seater racing chassis in Abaqus meeting required dimensional and weight constraints. Finite Element Analysis (FEM) was performed to evaluate torsional strength and structural integrity under load. The design was iteratively optimized based on simulation results, improving stiffness-to-weight ratio.</p>
+          <p class="project-desc" data-es>Diseño de un chasis de monoplaza de carreras en Abaqus que cumple las restricciones dimensionales y de peso exigidas. Se realizó un Análisis de Elementos Finitos (FEM) para evaluar la resistencia a torsión e integridad estructural bajo carga. El diseño se optimizó iterativamente en base a los resultados de simulación, mejorando la relación rigidez-peso.</p>
+          <div class="project-tags">
+            <span class="tag">Abaqus</span><span class="tag">FEM</span>
+            <span class="tag">Structural Analysis</span><span class="tag">Chassis Design</span>
+            <span class="tag">Torsional Strength</span><span class="tag">Optimization</span>
+          </div>
+          <div class="project-actions">
+            <a href="../documents/project_chassis_fem.pdf" class="btn-sm" target="_blank">
+              <span>⬇</span>
+              <span data-en>Download Report</span>
+              <span data-es>Descargar Informe</span>
+            </a>
+          </div>
+        </div>
+        <div class="project-badge">UC3M</div>
+      </div>
+      <div class="pdf-zone">
+        <span class="pdf-icon">📄</span>
+        <span class="pdf-name" data-en>project_chassis_fem.pdf — Place file in /documents/</span>
+        <span class="pdf-name" data-es>project_chassis_fem.pdf — Coloca el archivo en /documents/</span>
+      </div>
+    </div>
+
   </div>
 </main>
 
-<script src="../data/translations.js"></script>
+<footer>
+  <p>© 2025 Javier Gutiérrez Rodríguez · <span data-en>All rights reserved</span><span data-es>Todos los derechos reservados</span></p>
+</footer>
+
 <script>
-  let currentLang = localStorage.getItem('lang') || 'en';
-  function setLang(lang) { currentLang = lang; localStorage.setItem('lang', lang); applyLang(); }
+  const canvas=document.getElementById('starfield');
+  const ctx=canvas.getContext('2d');
+  let W,H,stars=[];
+  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+  function initStars(){stars=Array.from({length:120},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+0.2,a:Math.random(),speed:Math.random()*0.003+0.001}));}
+  function drawStars(){ctx.clearRect(0,0,W,H);stars.forEach(s=>{s.a+=s.speed;const alpha=(Math.sin(s.a)*0.5+0.5)*0.7+0.1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(0,212,255,${alpha})`;ctx.fill();});requestAnimationFrame(drawStars);}
+  window.addEventListener('resize',()=>{resize();initStars();});
+  resize();initStars();drawStars();
 
-  function renderProjects() {
-    const container = document.getElementById('projects-list');
-    const t = TRANSLATIONS[currentLang].projects;
-    container.innerHTML = PROJECTS.map((p, i) => {
-      const title = currentLang === 'en' ? p.title_en : p.title_es;
-      const desc = currentLang === 'en' ? p.desc_en : p.desc_es;
-      const org = currentLang === 'en' ? p.org_en : p.org_es;
-      const pdfHtml = p.pdf
-        ? `<a href="${p.pdf}" target="_blank" class="pdf-link">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
-            ${t.view_pdf}
-          </a>`
-        : `<span class="no-pdf">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
-            ${t.no_pdf}
-          </span>`;
-      const num = String(i + 1).padStart(2, '0');
-      return `
-        <div class="project-card">
-          <div class="project-card-header">
-            <div class="proj-meta">
-              <div class="proj-date">${p.date}</div>
-              <div class="proj-title">${title}</div>
-              <div class="proj-org">${org}</div>
-            </div>
-            <div class="proj-num">${num}</div>
-          </div>
-          <div class="project-card-body">
-            <p class="proj-desc">${desc}</p>
-            <div class="proj-tags">${p.tags.map(tag => `<span class="proj-tag">${tag}</span>`).join('')}</div>
-            <div class="proj-footer">${pdfHtml}</div>
-          </div>
-        </div>`;
-    }).join('');
+  function setLang(lang){
+    document.documentElement.setAttribute('data-lang',lang);
+    localStorage.setItem('lang',lang);
+    document.querySelectorAll('.lang-btn').forEach(b=>{b.classList.toggle('active',b.textContent===lang.toUpperCase());});
   }
-
-  function applyLang() {
-    const t = TRANSLATIONS[currentLang];
-    document.documentElement.lang = currentLang;
-    document.getElementById('btn-en').classList.toggle('active', currentLang === 'en');
-    document.getElementById('btn-es').classList.toggle('active', currentLang === 'es');
-    document.getElementById('page-title').textContent = t.projects.title;
-    document.getElementById('page-sub').textContent = t.projects.subtitle;
-    document.querySelectorAll('nav a[data-key]').forEach(a => {
-      const keys = a.dataset.key.split('.');
-      a.textContent = t[keys[0]][keys[1]];
-    });
-    renderProjects();
-  }
-
-  function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('open');
-    document.getElementById('overlay').classList.toggle('open');
-  }
-
-  applyLang();
+  const saved=localStorage.getItem('lang')||'en';
+  setLang(saved);
 </script>
 </body>
 </html>

@@ -1,521 +1,579 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Javier Gutiérrez — Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <title>Javier Gutiérrez — Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+    /* ── TOKENS ─────────────────────────────────────────── */
     :root {
-      --navy: #0D1B2A;
-      --navy-mid: #162435;
-      --navy-light: #1E3448;
-      --cream: #F5F0E8;
-      --cream-dark: #EAE3D6;
-      --orange: #E8600A;
-      --orange-dim: #c45008;
-      --slate: #6B7A8D;
-      --slate-light: #9AAABB;
-      --white: #FFFFFF;
-      --sidebar-w: 260px;
-      --font-display: 'Space Grotesk', sans-serif;
-      --font-body: 'Inter', sans-serif;
+      --bg:          #0A0E1A;
+      --bg2:         #0F1525;
+      --panel:       #111827;
+      --border:      #1E3A5F;
+      --accent:      #00D4FF;
+      --accent2:     #0066CC;
+      --text:        #E8EDF5;
+      --muted:       #8A9BB5;
+      --danger:      #FF4B4B;
+      --success:     #00FF9D;
+      --font-disp:   'Rajdhani', sans-serif;
+      --font-body:   'Inter', sans-serif;
+      --font-mono:   'Share Tech Mono', monospace;
     }
 
+    /* ── RESET ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
+      background: var(--bg);
+      color: var(--text);
       font-family: var(--font-body);
-      background: var(--cream);
-      color: var(--navy);
-      display: flex;
-      min-height: 100vh;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
     }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    img { max-width: 100%; display: block; }
 
-    /* ── SIDEBAR ── */
-    .sidebar {
-      width: var(--sidebar-w);
-      background: var(--navy);
-      position: fixed;
-      top: 0; left: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      padding: 2rem 1.5rem;
-      z-index: 100;
-      overflow-y: auto;
+    /* ── SCROLLBAR ──────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* ── NAV ────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 60px;
+      background: rgba(10,14,26,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
     }
-    .sidebar-logo {
-      font-family: var(--font-display);
+    .nav-logo {
+      font-family: var(--font-disp);
+      font-size: 1.2rem;
       font-weight: 700;
-      font-size: 1.1rem;
-      color: var(--cream);
-      letter-spacing: 0.04em;
-      text-decoration: none;
-      display: block;
-      margin-bottom: 0.2rem;
-    }
-    .sidebar-role {
-      font-size: 0.68rem;
-      color: var(--orange);
-      font-family: var(--font-display);
-      font-weight: 500;
-      letter-spacing: 0.1em;
+      letter-spacing: 3px;
+      color: var(--accent);
       text-transform: uppercase;
-      margin-bottom: 2.5rem;
-      line-height: 1.4;
     }
-
-    .nav-label {
-      font-size: 0.6rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--slate);
-      font-family: var(--font-display);
-      margin-bottom: 0.8rem;
-      font-weight: 600;
+    .nav-links {
+      display: flex; gap: 2rem; align-items: center;
+      list-style: none;
     }
-    nav { display: flex; flex-direction: column; gap: 0.2rem; margin-bottom: auto; }
-    nav a {
-      font-family: var(--font-display);
-      font-size: 0.9rem;
+    .nav-links a {
+      font-family: var(--font-disp);
+      font-size: 0.85rem;
       font-weight: 500;
-      color: var(--slate-light);
-      text-decoration: none;
-      padding: 0.55rem 0.75rem;
-      border-radius: 6px;
-      border-left: 2px solid transparent;
-      transition: all 0.2s;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.2s;
+      position: relative;
     }
-    nav a:hover, nav a.active {
-      color: var(--cream);
-      background: var(--navy-light);
-      border-left-color: var(--orange);
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--accent); text-decoration: none; }
+    .nav-links a.active::after {
+      content: '';
+      position: absolute; bottom: -4px; left: 0; right: 0;
+      height: 1px; background: var(--accent);
     }
 
     /* Language toggle */
     .lang-toggle {
-      margin-top: 2rem;
-      display: flex;
-      background: var(--navy-mid);
-      border-radius: 8px;
-      padding: 3px;
-      gap: 2px;
+      display: flex; gap: 0; border: 1px solid var(--border); border-radius: 3px; overflow: hidden;
     }
     .lang-btn {
-      flex: 1;
-      padding: 0.4rem;
+      background: none;
       border: none;
-      background: transparent;
-      color: var(--slate);
-      font-family: var(--font-display);
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 1px;
+      padding: 4px 10px;
       cursor: pointer;
-      border-radius: 6px;
       transition: all 0.2s;
     }
     .lang-btn.active {
-      background: var(--orange);
-      color: var(--white);
+      background: var(--accent);
+      color: var(--bg);
+      font-weight: 700;
+    }
+    .lang-btn:not(.active):hover { color: var(--text); background: var(--panel); }
+
+    /* ── CANVAS BG ──────────────────────────────────────── */
+    #starfield {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0; pointer-events: none;
     }
 
-    /* ── MAIN CONTENT ── */
-    .main {
-      margin-left: var(--sidebar-w);
-      flex: 1;
-      padding: 0;
-      min-height: 100vh;
-    }
-
-    /* Hero */
+    /* ── HERO ───────────────────────────────────────────── */
     .hero {
-      background: var(--navy);
-      padding: 4rem 3.5rem 3.5rem;
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 80px 2rem 2rem;
+    }
+    .hero-inner {
+      max-width: 960px; width: 100%;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+    }
+    .hero-badge {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 24px; height: 1px; background: var(--accent);
+    }
+    .hero-name {
+      font-family: var(--font-disp);
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 0.95;
+      letter-spacing: -1px;
+      color: var(--text);
+    }
+    .hero-name span { color: var(--accent); }
+    .hero-title {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-top: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .hero-desc {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      max-width: 440px;
+    }
+    .hero-cta {
+      display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;
+    }
+    .btn {
+      font-family: var(--font-disp);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 10px 24px;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+    .btn:hover { background: var(--accent); color: var(--bg); text-decoration: none; }
+    .btn-solid { background: var(--accent); color: var(--bg); }
+    .btn-solid:hover { background: transparent; color: var(--accent); }
+
+    /* HUD panel right side */
+    .hero-hud {
       position: relative;
+      border: 1px solid var(--border);
+      padding: 2rem;
+      background: rgba(15,21,37,0.6);
+    }
+    .hud-header {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 3px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .hud-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--success);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; } 50% { opacity: 0.3; }
+    }
+    .hud-row {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(30,58,95,0.4);
+      font-size: 0.82rem;
+    }
+    .hud-row:last-child { border-bottom: none; }
+    .hud-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .hud-value {
+      font-family: var(--font-disp);
+      font-weight: 600;
+      color: var(--text);
+      text-align: right;
+      max-width: 180px;
+    }
+    .hud-value.accent { color: var(--accent); }
+    .hud-corner {
+      position: absolute;
+      width: 12px; height: 12px;
+      border-color: var(--accent);
+      border-style: solid;
+    }
+    .hud-corner.tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+    .hud-corner.tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+    .hud-corner.bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+    .hud-corner.br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+    /* ── SKILLS STRIP ───────────────────────────────────── */
+    .skills-strip {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 2rem 0;
+      background: var(--bg2);
       overflow: hidden;
     }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0; right: 0;
-      width: 50%;
-      height: 100%;
-      background: repeating-linear-gradient(
-        90deg,
-        transparent,
-        transparent 60px,
-        rgba(232,96,10,0.04) 60px,
-        rgba(232,96,10,0.04) 61px
-      ),
-      repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 30px,
-        rgba(232,96,10,0.03) 30px,
-        rgba(232,96,10,0.03) 31px
-      );
-      pointer-events: none;
+    .skills-track {
+      display: flex; gap: 3rem;
+      animation: scroll-track 25s linear infinite;
+      width: max-content;
     }
-    .hero-eyebrow {
-      font-family: var(--font-display);
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
+    @keyframes scroll-track {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .skill-chip {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      color: var(--muted);
       text-transform: uppercase;
-      color: var(--orange);
-      font-weight: 600;
-      margin-bottom: 1rem;
+      white-space: nowrap;
     }
-    .hero h1 {
-      font-family: var(--font-display);
-      font-size: clamp(2.2rem, 4vw, 3.2rem);
-      font-weight: 700;
-      color: var(--cream);
-      line-height: 1.1;
-      letter-spacing: -0.02em;
+    .skill-chip::before {
+      content: '◈';
+      color: var(--accent);
+      font-size: 0.5rem;
+    }
+
+    /* ── SECTION ────────────────────────────────────────── */
+    section {
+      position: relative; z-index: 1;
+      padding: 5rem 2rem;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 4px;
+      color: var(--accent);
+      text-transform: uppercase;
       margin-bottom: 0.5rem;
     }
-    .hero h1 span { color: var(--orange); }
-    .hero-subtitle {
-      font-size: 1rem;
-      color: var(--slate-light);
-      font-weight: 300;
-      max-width: 560px;
-      line-height: 1.6;
-      margin-top: 1rem;
-    }
-
-    /* Telemetry bar */
-    .telemetry {
-      display: flex;
-      gap: 2rem;
-      margin-top: 2.5rem;
-      flex-wrap: wrap;
-    }
-    .tele-item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
-    }
-    .tele-label {
-      font-size: 0.6rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--slate);
-      font-family: var(--font-display);
-      font-weight: 600;
-    }
-    .tele-value {
-      font-family: var(--font-display);
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--cream);
-    }
-    .tele-sep {
-      width: 1px;
-      background: var(--navy-light);
-      align-self: stretch;
-    }
-
-    /* Content area */
-    .content {
-      padding: 3rem 3.5rem;
-      max-width: 860px;
-    }
-
     .section-title {
-      font-family: var(--font-display);
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--orange);
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
-    .section-heading {
-      font-family: var(--font-display);
-      font-size: 1.6rem;
+      font-family: var(--font-disp);
+      font-size: clamp(2rem, 5vw, 3rem);
       font-weight: 700;
-      color: var(--navy);
-      margin-bottom: 1.5rem;
-      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+    .section-line {
+      width: 60px; height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      margin-bottom: 2.5rem;
     }
 
-    .about-block {
-      margin-bottom: 3rem;
+    /* ── ABOUT ──────────────────────────────────────────── */
+    .about-grid {
+      display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; align-items: start;
     }
-    .about-text {
-      font-size: 0.97rem;
+    .about-text p {
+      color: var(--muted);
+      font-size: 0.95rem;
       line-height: 1.8;
-      color: #2a3a4e;
       margin-bottom: 1rem;
     }
-
-    .objectives-block {
-      background: var(--navy);
-      border-radius: 12px;
-      padding: 2rem 2.5rem;
-      margin-bottom: 3rem;
-      border-left: 3px solid var(--orange);
+    .about-text p strong { color: var(--text); }
+    .objectives-box {
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      background: var(--panel);
+      position: relative;
     }
-    .objectives-block .section-title { color: var(--orange); }
-    .objectives-block .section-heading { color: var(--cream); font-size: 1.15rem; margin-bottom: 0.75rem; }
-    .objectives-block p { color: var(--slate-light); font-size: 0.95rem; line-height: 1.8; }
-
-    /* Skills grid */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      margin-bottom: 3rem;
-    }
-    .skill-card {
-      background: var(--white);
-      border: 1px solid var(--cream-dark);
-      border-radius: 10px;
-      padding: 1.25rem 1.5rem;
-    }
-    .skill-card h4 {
-      font-family: var(--font-display);
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
+    .obj-title {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 3px;
+      color: var(--accent);
       text-transform: uppercase;
-      color: var(--slate);
-      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .obj-item {
+      display: flex; gap: 0.75rem; align-items: flex-start;
       margin-bottom: 0.75rem;
-    }
-    .skill-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-    }
-    .skill-tag {
-      font-family: var(--font-display);
-      font-size: 0.75rem;
-      font-weight: 500;
-      background: var(--cream);
-      color: var(--navy);
-      padding: 0.25rem 0.6rem;
-      border-radius: 4px;
-      border: 1px solid var(--cream-dark);
-    }
-    .skill-tag.highlight {
-      background: rgba(232,96,10,0.08);
-      color: var(--orange-dim);
-      border-color: rgba(232,96,10,0.2);
-    }
-
-    /* Competencies */
-    .competencies {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-      margin-bottom: 3rem;
-    }
-    .comp-item {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-family: var(--font-display);
       font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--navy);
+      color: var(--muted);
     }
-    .comp-item::before {
-      content: '';
-      width: 6px; height: 6px;
-      background: var(--orange);
-      border-radius: 50%;
+    .obj-item::before {
+      content: '▸';
+      color: var(--accent);
       flex-shrink: 0;
+      margin-top: 2px;
     }
 
-    /* ── MOBILE ── */
-    .hamburger {
-      display: none;
-      position: fixed;
-      top: 1rem; left: 1rem;
-      z-index: 200;
-      background: var(--navy);
-      border: none;
-      padding: 0.5rem;
-      border-radius: 6px;
-      cursor: pointer;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .hamburger span {
-      display: block; width: 22px; height: 2px;
-      background: var(--cream); border-radius: 2px;
-    }
-    .sidebar-overlay {
-      display: none;
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 90;
+    /* ── FOOTER ─────────────────────────────────────────── */
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+      color: var(--muted);
+      text-transform: uppercase;
     }
 
+    /* ── RESPONSIVE ─────────────────────────────────────── */
     @media (max-width: 768px) {
-      .hamburger { display: flex; }
-      .sidebar {
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-      }
-      .sidebar.open { transform: translateX(0); }
-      .sidebar-overlay.open { display: block; }
-      .main { margin-left: 0; padding-top: 3.5rem; }
-      .hero { padding: 2rem 1.5rem; }
-      .content { padding: 2rem 1.5rem; }
-      .skills-grid { grid-template-columns: 1fr; }
-      .telemetry { gap: 1rem; }
-      .tele-sep { display: none; }
+      nav { padding: 0 1rem; }
+      .nav-links { gap: 1rem; }
+      .nav-links a { font-size: 0.75rem; letter-spacing: 1px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .about-grid { grid-template-columns: 1fr; }
     }
+
+    /* ── HIDDEN LANG CONTENT ────────────────────────────── */
+    [data-en], [data-es] { display: none; }
+    html[data-lang="en"] [data-en] { display: block; }
+    html[data-lang="es"] [data-es] { display: block; }
+    html[data-lang="en"] [data-en].inline,
+    html[data-lang="es"] [data-es].inline { display: inline; }
+    html[data-lang="en"] [data-en].flex,
+    html[data-lang="es"] [data-es].flex { display: flex; }
   </style>
 </head>
 <body>
 
-<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">
-  <span></span><span></span><span></span>
-</button>
-<div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+<canvas id="starfield"></canvas>
 
-<aside class="sidebar" id="sidebar">
-  <a href="index.html" class="sidebar-logo">Javier Gutiérrez</a>
-  <div class="sidebar-role" id="sidebar-role">Test Method Development &amp;<br>Validation Engineer</div>
-  <div class="nav-label">Navigation</div>
-  <nav>
-    <a href="index.html" class="active" data-key="nav.home">Home</a>
-    <a href="education.html" data-key="nav.education">Education</a>
-    <a href="projects.html" data-key="nav.projects">Projects</a>
-    <a href="contact.html" data-key="nav.contact">Contact</a>
-  </nav>
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">J·G·R</div>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active" data-en>Home</a><a href="index.html" class="active" data-es>Inicio</a></li>
+    <li><a href="education.html" data-en>Education</a><a href="education.html" data-es>Formación</a></li>
+    <li><a href="projects.html" data-en>Projects</a><a href="projects.html" data-es>Proyectos</a></li>
+    <li><a href="contact.html" data-en>Contact</a><a href="contact.html" data-es>Contacto</a></li>
+  </ul>
   <div class="lang-toggle">
-    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
-    <button class="lang-btn" id="btn-es" onclick="setLang('es')">ES</button>
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('es')">ES</button>
   </div>
-</aside>
+</nav>
 
-<main class="main">
-  <section class="hero">
-    <div class="hero-eyebrow" id="hero-eyebrow">Mechanical Engineer</div>
-    <h1 id="hero-name">Javier<br><span>Gutiérrez</span></h1>
-    <p class="hero-subtitle" id="hero-subtitle">Test Method Development &amp; Validation Engineer — Mechanical Engineer specialized in propulsion systems and engine test methodologies.</p>
-    <div class="telemetry">
-      <div class="tele-item">
-        <span class="tele-label">Location</span>
-        <span class="tele-value">Valladolid, Spain</span>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">
+        <span data-en>Mechanical Engineer</span>
+        <span data-es>Ingeniero Mecánico</span>
       </div>
-      <div class="tele-sep"></div>
-      <div class="tele-item">
-        <span class="tele-label">Current Role</span>
-        <span class="tele-value">HORSE R&amp;D&amp;I</span>
-      </div>
-      <div class="tele-sep"></div>
-      <div class="tele-item">
-        <span class="tele-label">Degree</span>
-        <span class="tele-value">Mech. Engineering — UC3M</span>
-      </div>
-      <div class="tele-sep"></div>
-      <div class="tele-item">
-        <span class="tele-label">Specialization</span>
-        <span class="tele-value">Propulsion Systems</span>
-      </div>
-    </div>
-  </section>
-
-  <div class="content">
-    <div class="about-block">
-      <div class="section-title" id="about-label">About Me</div>
-      <p class="about-text" id="about-p1"></p>
-      <p class="about-text" id="about-p2"></p>
-    </div>
-
-    <div class="objectives-block">
-      <div class="section-title" id="obj-label">Objectives</div>
-      <p id="obj-text"></p>
-    </div>
-
-    <div class="section-title" id="skills-label">Skills &amp; Tools</div>
-    <div class="skills-grid" style="margin-top:1rem;">
-      <div class="skill-card">
-        <h4>Software</h4>
-        <div class="skill-tags">
-          <span class="skill-tag highlight">AVL Puma Open 2</span>
-          <span class="skill-tag highlight">AVL Navigator</span>
-          <span class="skill-tag">Solid Edge</span>
-          <span class="skill-tag">Abaqus</span>
-          <span class="skill-tag">ANSYS</span>
-          <span class="skill-tag">MATLAB</span>
-          <span class="skill-tag">Python</span>
-        </div>
-      </div>
-      <div class="skill-card">
-        <h4>Engineering</h4>
-        <div class="skill-tags">
-          <span class="skill-tag highlight">ICE Test Methods</span>
-          <span class="skill-tag highlight">Hybrid Powertrains</span>
-          <span class="skill-tag">FEM Analysis</span>
-          <span class="skill-tag">CFD</span>
-          <span class="skill-tag">CAD</span>
-          <span class="skill-tag">Mechanical Design</span>
-        </div>
+      <h1 class="hero-name">Javier<br><span>Gutiérrez</span></h1>
+      <p class="hero-title" data-en>Test Method Development &amp; Validation Engineer</p>
+      <p class="hero-title" data-es>Ingeniero de Desarrollo y Validación de Métodos de Ensayo</p>
+      <div class="hero-cta">
+        <a href="projects.html" class="btn btn-solid" data-en>View Projects</a>
+        <a href="projects.html" class="btn btn-solid" data-es>Ver Proyectos</a>
+        <a href="contact.html" class="btn" data-en>Contact Me</a>
+        <a href="contact.html" class="btn" data-es>Contacto</a>
       </div>
     </div>
 
-    <div class="section-title" id="comp-label" style="margin-top:2.5rem;">Competencies</div>
-    <div class="competencies" style="margin-top:1rem;" id="comp-list">
-      <span class="comp-item" id="comp-1">Strong teamwork skills</span>
-      <span class="comp-item" id="comp-2">Analytical thinking</span>
-      <span class="comp-item" id="comp-3">Problem-solving abilities</span>
-      <span class="comp-item" id="comp-4">Continuous improvement mindset</span>
+    <div class="hero-hud">
+      <div class="hud-corner tl"></div>
+      <div class="hud-corner tr"></div>
+      <div class="hud-corner bl"></div>
+      <div class="hud-corner br"></div>
+      <div class="hud-header">
+        <span data-en>SYSTEM STATUS</span>
+        <span data-es>ESTADO DEL SISTEMA</span>
+        <div class="hud-dot"></div>
+      </div>
+      <div class="hud-row">
+        <span class="hud-label" data-en>Location</span>
+        <span class="hud-label" data-es>Ubicación</span>
+        <span class="hud-value">Valladolid, ES</span>
+      </div>
+      <div class="hud-row">
+        <span class="hud-label" data-en>Current Role</span>
+        <span class="hud-label" data-es>Puesto Actual</span>
+        <span class="hud-value accent" data-en>ICE &amp; Hybrid Methods</span>
+        <span class="hud-value accent" data-es>Métodos ICE &amp; Híbrido</span>
+      </div>
+      <div class="hud-row">
+        <span class="hud-label">Company</span>
+        <span class="hud-value">HORSE R&amp;D&amp;I</span>
+      </div>
+      <div class="hud-row">
+        <span class="hud-label" data-en>Degree</span>
+        <span class="hud-label" data-es>Titulación</span>
+        <span class="hud-value" data-en>Mech. Engineering — UC3M</span>
+        <span class="hud-value" data-es>Ing. Mecánica — UC3M</span>
+      </div>
+      <div class="hud-row">
+        <span class="hud-label" data-en>Languages</span>
+        <span class="hud-label" data-es>Idiomas</span>
+        <span class="hud-value" data-en>ES (native) · EN (B2)</span>
+        <span class="hud-value" data-es>ES (nativo) · EN (B2)</span>
+      </div>
+      <div class="hud-row">
+        <span class="hud-label">Status</span>
+        <span class="hud-value accent" data-en>Open to Opportunities</span>
+        <span class="hud-value accent" data-es>Abierto a Oportunidades</span>
+      </div>
     </div>
   </div>
-</main>
+</div>
 
-<script src="../data/translations.js"></script>
+<!-- SKILLS STRIP -->
+<div class="skills-strip">
+  <div class="skills-track" id="skillsTrack">
+    <span class="skill-chip">AVL Puma Open 2</span>
+    <span class="skill-chip">AVL Navigator</span>
+    <span class="skill-chip">ANSYS</span>
+    <span class="skill-chip">MATLAB</span>
+    <span class="skill-chip">Python</span>
+    <span class="skill-chip">Abaqus</span>
+    <span class="skill-chip">Solid Edge</span>
+    <span class="skill-chip">CFD</span>
+    <span class="skill-chip">FEA / FEM</span>
+    <span class="skill-chip">Powertrain Systems</span>
+    <span class="skill-chip">ICE Testing</span>
+    <span class="skill-chip">Hybrid Engines</span>
+    <span class="skill-chip">Image Processing</span>
+    <span class="skill-chip">Mechanical Design</span>
+    <!-- duplicate for seamless loop -->
+    <span class="skill-chip">AVL Puma Open 2</span>
+    <span class="skill-chip">AVL Navigator</span>
+    <span class="skill-chip">ANSYS</span>
+    <span class="skill-chip">MATLAB</span>
+    <span class="skill-chip">Python</span>
+    <span class="skill-chip">Abaqus</span>
+    <span class="skill-chip">Solid Edge</span>
+    <span class="skill-chip">CFD</span>
+    <span class="skill-chip">FEA / FEM</span>
+    <span class="skill-chip">Powertrain Systems</span>
+    <span class="skill-chip">ICE Testing</span>
+    <span class="skill-chip">Hybrid Engines</span>
+    <span class="skill-chip">Image Processing</span>
+    <span class="skill-chip">Mechanical Design</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section>
+  <p class="section-label" data-en>// ABOUT</p>
+  <p class="section-label" data-es>// SOBRE MÍ</p>
+  <h2 class="section-title" data-en>Who I Am</h2>
+  <h2 class="section-title" data-es>Quién Soy</h2>
+  <div class="section-line"></div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p data-en>I'm a <strong>Mechanical Engineer</strong> graduated from Universidad Carlos III de Madrid, specialized in propulsion systems. I have a solid foundation in mechanical design, structural analysis, manufacturing processes and numerical simulation, with proficiency in CAD tools, CFD, FEA and mechanical system optimization.</p>
+      <p data-es>Soy <strong>Ingeniero Mecánico</strong> titulado por la Universidad Carlos III de Madrid, especializado en sistemas de propulsión. Cuento con una sólida formación en diseño mecánico, análisis estructural, procesos de fabricación y simulación numérica, con dominio de herramientas CAD, CFD, FEA y optimización de sistemas mecánicos.</p>
+
+      <p data-en>Currently, I work as an engineer in the <strong>Methodology Department at HORSE R&amp;D</strong> through CT Engineering Group, within the engine test bench area. My role focuses on developing, validating, and optimizing testing methodologies for ICE and hybrid powertrains.</p>
+      <p data-es>Actualmente trabajo como ingeniero en el <strong>Departamento de Metodología de HORSE R&amp;D</strong>, a través de CT Engineering Group, en el área de bancos de ensayo de motores. Mi labor se centra en el desarrollo, validación y optimización de metodologías de ensayo para motores de combustión interna y transmisiones híbridas.</p>
+
+      <p data-en>I consider myself a <strong>determined, adaptable, and committed</strong> professional, driven by continuous learning, eager to take on new challenges, and motivated to contribute value from day one.</p>
+      <p data-es>Me considero un profesional <strong>determinado, adaptable y comprometido</strong>, impulsado por el aprendizaje continuo, con ganas de asumir nuevos retos y motivado para aportar valor desde el primer día.</p>
+    </div>
+    <div class="objectives-box">
+      <div class="obj-title" data-en>// OBJECTIVES</div>
+      <div class="obj-title" data-es>// OBJETIVOS</div>
+      <div class="obj-item" data-en>Specialize in hybrid and alternative-fuel powertrain validation</div>
+      <div class="obj-item" data-es>Especializarme en la validación de transmisiones híbridas y combustibles alternativos</div>
+      <div class="obj-item" data-en>Deepen expertise in simulation tools (CFD, FEM)</div>
+      <div class="obj-item" data-es>Profundizar en herramientas de simulación (CFD, FEM)</div>
+      <div class="obj-item" data-en>Contribute to the energy transition in the automotive sector</div>
+      <div class="obj-item" data-es>Contribuir a la transición energética en el sector del automóvil</div>
+      <div class="obj-item" data-en>Grow in an international, high-performance engineering environment</div>
+      <div class="obj-item" data-es>Crecer en un entorno de ingeniería internacional y de alto rendimiento</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Javier Gutiérrez Rodríguez · <span data-en>All rights reserved</span><span data-es>Todos los derechos reservados</span></p>
+</footer>
+
 <script>
-  let currentLang = localStorage.getItem('lang') || 'en';
+  /* ── STARFIELD ─────────────────────────────────────── */
+  const canvas = document.getElementById('starfield');
+  const ctx = canvas.getContext('2d');
+  let W, H, stars = [];
 
-  function setLang(lang) {
-    currentLang = lang;
-    localStorage.setItem('lang', lang);
-    applyLang();
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
   }
 
-  function applyLang() {
-    const t = TRANSLATIONS[currentLang];
-    document.documentElement.lang = currentLang;
-    document.getElementById('btn-en').classList.toggle('active', currentLang === 'en');
-    document.getElementById('btn-es').classList.toggle('active', currentLang === 'es');
+  function initStars() {
+    stars = Array.from({length: 120}, () => ({
+      x: Math.random() * W, y: Math.random() * H,
+      r: Math.random() * 1.2 + 0.2,
+      a: Math.random(),
+      speed: Math.random() * 0.003 + 0.001
+    }));
+  }
 
-    document.getElementById('hero-subtitle').innerHTML = t.home.subtitle;
-    document.getElementById('about-label').textContent = t.home.about_title;
-    document.getElementById('about-p1').innerHTML = t.home.about;
-    document.getElementById('about-p2').innerHTML = t.home.about2;
-    document.getElementById('obj-label').textContent = t.home.objectives_title;
-    document.getElementById('obj-text').textContent = t.home.objectives;
-    document.getElementById('skills-label').textContent = t.home.skills_title;
-    document.getElementById('comp-label').textContent = t.home.competencies_title;
+  function drawStars() {
+    ctx.clearRect(0, 0, W, H);
+    stars.forEach(s => {
+      s.a += s.speed;
+      const alpha = (Math.sin(s.a) * 0.5 + 0.5) * 0.7 + 0.1;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0,212,255,${alpha})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(drawStars);
+  }
 
-    const comps = currentLang === 'en'
-      ? ['Strong teamwork skills', 'Analytical thinking', 'Problem-solving abilities', 'Continuous improvement mindset']
-      : ['Sólidas habilidades de trabajo en equipo', 'Pensamiento analítico', 'Capacidad de resolución de problemas', 'Mentalidad de mejora continua'];
-    comps.forEach((c,i) => document.getElementById('comp-'+(i+1)).textContent = c);
+  window.addEventListener('resize', () => { resize(); initStars(); });
+  resize(); initStars(); drawStars();
 
-    // Nav links
-    document.querySelectorAll('nav a[data-key]').forEach(a => {
-      const keys = a.dataset.key.split('.');
-      a.textContent = t[keys[0]][keys[1]];
+  /* ── LANGUAGE ──────────────────────────────────────── */
+  function setLang(lang) {
+    document.documentElement.setAttribute('data-lang', lang);
+    localStorage.setItem('lang', lang);
+    document.querySelectorAll('.lang-btn').forEach(b => {
+      b.classList.toggle('active', b.textContent === lang.toUpperCase());
     });
   }
 
-  function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('open');
-    document.getElementById('overlay').classList.toggle('open');
-  }
-
-  applyLang();
+  // init language from storage
+  const saved = localStorage.getItem('lang') || 'en';
+  setLang(saved);
 </script>
 </body>
 </html>
