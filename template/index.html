@@ -9,16 +9,16 @@
   <style>
     /* ── TOKENS ─────────────────────────────────────────── */
     :root {
-      --bg:          #0A0E1A;
-      --bg2:         #0F1525;
-      --panel:       #111827;
-      --border:      #1E3A5F;
-      --accent:      #00D4FF;
-      --accent2:     #0066CC;
-      --text:        #E8EDF5;
-      --muted:       #8A9BB5;
+      --bg:          #0E0E0E;
+      --bg2:         #141414;
+      --panel:       #1A1A1A;
+      --border:      #2A2A2A;
+      --accent:      #D4A017;
+      --accent2:     #A07810;
+      --text:        #F0EDE6;
+      --muted:       #8A8278;
       --danger:      #FF4B4B;
-      --success:     #00FF9D;
+      --success:     #D4A017;
       --font-disp:   'Rajdhani', sans-serif;
       --font-body:   'Inter', sans-serif;
       --font-mono:   'Share Tech Mono', monospace;
@@ -209,7 +209,7 @@
     .hud-row {
       display: flex; justify-content: space-between; align-items: flex-start;
       padding: 0.6rem 0;
-      border-bottom: 1px solid rgba(30,58,95,0.4);
+      border-bottom: 1px solid rgba(42,42,42,0.4);
       font-size: 0.82rem;
     }
     .hud-row:last-child { border-bottom: none; }
@@ -553,7 +553,7 @@
       const alpha = (Math.sin(s.a) * 0.5 + 0.5) * 0.7 + 0.1;
       ctx.beginPath();
       ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(0,212,255,${alpha})`;
+      ctx.fillStyle = `rgba(212,160,23,${alpha})`;
       ctx.fill();
     });
     requestAnimationFrame(drawStars);

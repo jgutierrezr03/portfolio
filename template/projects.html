@@ -8,9 +8,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg:#0A0E1A; --bg2:#0F1525; --panel:#111827; --border:#1E3A5F;
-      --accent:#00D4FF; --accent2:#0066CC; --text:#E8EDF5; --muted:#8A9BB5;
-      --success:#00FF9D;
+      --bg:#0E0E0E; --bg2:#141414; --panel:#1A1A1A; --border:#2A2A2A;
+      --accent:#D4A017; --accent2:#A07810; --text:#F0EDE6; --muted:#8A8278;
+      --success:#D4A017;
       --font-disp:'Rajdhani',sans-serif; --font-body:'Inter',sans-serif; --font-mono:'Share Tech Mono',monospace;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -56,7 +56,7 @@
     .project-org{font-family:var(--font-mono);font-size:0.7rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:1rem;}
     .project-desc{color:var(--muted);font-size:0.9rem;line-height:1.7;margin-bottom:1rem;}
     .project-tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1.5rem;}
-    .tag{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:2px;color:var(--accent);border:1px solid rgba(0,212,255,0.3);padding:3px 8px;text-transform:uppercase;}
+    .tag{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:2px;color:var(--accent);border:1px solid rgba(212,160,23,0.3);padding:3px 8px;text-transform:uppercase;}
 
     .project-actions{display:flex;gap:0.75rem;flex-wrap:wrap;}
     .btn-sm{font-family:var(--font-disp);font-size:0.72rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:7px 16px;border:1px solid var(--accent);color:var(--accent);background:transparent;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:0.4rem;}
@@ -66,14 +66,14 @@
 
     .project-badge{
       font-family:var(--font-mono);font-size:0.6rem;letter-spacing:2px;
-      color:var(--success);border:1px solid rgba(0,255,157,0.3);
+      color:var(--success);border:1px solid rgba(212,160,23,0.3);
       padding:4px 10px;text-transform:uppercase;white-space:nowrap;
       height:fit-content;
     }
     .project-badge.wip{color:#FFB347;border-color:rgba(255,179,71,0.3);}
 
     /* PDF zone */
-    .pdf-zone{border-top:1px solid var(--border);padding:1.25rem 2rem;background:rgba(0,212,255,0.03);display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+    .pdf-zone{border-top:1px solid var(--border);padding:1.25rem 2rem;background:rgba(212,160,23,0.03);display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
     .pdf-icon{font-size:1.2rem;color:var(--accent);}
     .pdf-name{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:2px;color:var(--muted);flex:1;}
     .pdf-placeholder{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:2px;color:var(--border);font-style:italic;}
@@ -231,7 +231,7 @@
   let W,H,stars=[];
   function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
   function initStars(){stars=Array.from({length:120},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+0.2,a:Math.random(),speed:Math.random()*0.003+0.001}));}
-  function drawStars(){ctx.clearRect(0,0,W,H);stars.forEach(s=>{s.a+=s.speed;const alpha=(Math.sin(s.a)*0.5+0.5)*0.7+0.1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(0,212,255,${alpha})`;ctx.fill();});requestAnimationFrame(drawStars);}
+  function drawStars(){ctx.clearRect(0,0,W,H);stars.forEach(s=>{s.a+=s.speed;const alpha=(Math.sin(s.a)*0.5+0.5)*0.7+0.1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(212,160,23,${alpha})`;ctx.fill();});requestAnimationFrame(drawStars);}
   window.addEventListener('resize',()=>{resize();initStars();});
   resize();initStars();drawStars();
 
