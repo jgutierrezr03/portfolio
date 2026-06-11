@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Education — Javier Gutiérrez</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:#0E0E0E; --bg2:#141414; --panel:#1A1A1A; --border:#2A2A2A;
+      --accent:#D4A017; --accent2:#A07810; --text:#F0EDE6; --muted:#8A9BB5;
+      --success:#D4A017;
+      --font-disp:'Rajdhani',sans-serif; --font-body:'Inter',sans-serif; --font-mono:'Share Tech Mono',monospace;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.6;overflow-x:hidden;}
+    a{color:var(--accent);text-decoration:none;}
+    a:hover{text-decoration:underline;}
+    ::-webkit-scrollbar{width:6px;} ::-webkit-scrollbar-track{background:var(--bg);} ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:60px;background:rgba(10,14,26,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+    .nav-logo{font-family:var(--font-disp);font-size:1.2rem;font-weight:700;letter-spacing:3px;color:var(--accent);text-transform:uppercase;}
+    .nav-links{display:flex;gap:2rem;align-items:center;list-style:none;}
+    .nav-links a{font-family:var(--font-disp);font-size:0.85rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:color 0.2s;position:relative;}
+    .nav-links a:hover,.nav-links a.active{color:var(--accent);text-decoration:none;}
+    .nav-links a.active::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--accent);}
+    .lang-toggle{display:flex;gap:0;border:1px solid var(--border);border-radius:3px;overflow:hidden;}
+    .lang-btn{background:none;border:none;color:var(--muted);font-family:var(--font-mono);font-size:0.7rem;letter-spacing:1px;padding:4px 10px;cursor:pointer;transition:all 0.2s;}
+    .lang-btn.active{background:var(--accent);color:var(--bg);font-weight:700;}
+    .lang-btn:not(.active):hover{color:var(--text);background:var(--panel);}
+
+    #starfield{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+
+    .page-header{position:relative;z-index:1;padding:120px 2rem 3rem;max-width:960px;margin:0 auto;}
+    .page-badge{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.5rem;}
+    .page-badge::before{content:'';width:24px;height:1px;background:var(--accent);}
+    .page-title{font-family:var(--font-disp);font-size:clamp(2.5rem,6vw,4.5rem);font-weight:700;line-height:0.95;color:var(--text);}
+    .page-title span{color:var(--accent);}
+    .page-line{width:60px;height:2px;background:linear-gradient(90deg,var(--accent),transparent);margin-top:1rem;}
+
+    main{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 2rem 6rem;}
+
+    /* Timeline */
+    .timeline{position:relative;padding-left:2rem;}
+    .timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--accent),var(--border),transparent);}
+
+    .tl-item{position:relative;margin-bottom:3rem;}
+    .tl-item::before{content:'';position:absolute;left:-2.4rem;top:0.5rem;width:10px;height:10px;border:1px solid var(--accent);background:var(--bg);transform:rotate(45deg);}
+    .tl-item.active-item::before{background:var(--accent);}
+
+    .tl-meta{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:0.4rem;}
+    .tl-period{color:var(--accent);}
+    .tl-title{font-family:var(--font-disp);font-size:1.5rem;font-weight:700;color:var(--text);margin-bottom:0.2rem;}
+    .tl-institution{font-family:var(--font-disp);font-size:1rem;font-weight:500;color:var(--muted);margin-bottom:1rem;}
+    .tl-body{background:var(--panel);border:1px solid var(--border);padding:1.5rem;position:relative;}
+    .tl-corner{position:absolute;width:8px;height:8px;border-color:var(--accent);border-style:solid;}
+    .tl-corner.tl{top:-1px;left:-1px;border-width:2px 0 0 2px;}
+    .tl-corner.tr{top:-1px;right:-1px;border-width:2px 2px 0 0;}
+    .tl-corner.bl{bottom:-1px;left:-1px;border-width:0 0 2px 2px;}
+    .tl-corner.br{bottom:-1px;right:-1px;border-width:0 2px 2px 0;}
+    .tl-desc{color:var(--muted);font-size:0.9rem;line-height:1.7;margin-bottom:1rem;}
+    .tag-row{display:flex;flex-wrap:wrap;gap:0.5rem;}
+    .tag{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:2px;color:var(--accent);border:1px solid rgba(212,160,23,0.3);padding:3px 8px;text-transform:uppercase;}
+
+    /* Courses grid */
+    .courses-section{margin-top:4rem;}
+    .section-label{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:0.5rem;}
+    .section-title{font-family:var(--font-disp);font-size:clamp(1.8rem,4vw,2.5rem);font-weight:700;color:var(--text);margin-bottom:0.5rem;}
+    .section-line{width:60px;height:2px;background:linear-gradient(90deg,var(--accent),transparent);margin-bottom:2rem;}
+    .courses-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;}
+    .course-card{border:1px solid var(--border);padding:1.5rem;background:var(--panel);position:relative;transition:border-color 0.2s;}
+    .course-card:hover{border-color:var(--accent);}
+    .course-period{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:0.5rem;}
+    .course-name{font-family:var(--font-disp);font-size:1.1rem;font-weight:600;color:var(--text);margin-bottom:0.3rem;}
+    .course-inst{font-size:0.8rem;color:var(--muted);}
+
+    /* Skills matrix */
+    .skills-section{margin-top:4rem;}
+    .skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;}
+    .skill-bar-item{background:var(--panel);border:1px solid var(--border);padding:1rem;}
+    .skill-bar-name{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:2px;color:var(--text);text-transform:uppercase;margin-bottom:0.5rem;}
+    .skill-bar-track{height:2px;background:var(--border);position:relative;}
+    .skill-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width 1s ease;}
+
+    footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:2rem;text-align:center;font-family:var(--font-mono);font-size:0.65rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase;}
+
+    [data-en],[data-es]{display:none;}
+    html[data-lang="en"] [data-en]{display:block;}
+    html[data-lang="es"] [data-es]{display:block;}
+    html[data-lang="en"] [data-en].inline,html[data-lang="es"] [data-es].inline{display:inline;}
+    html[data-lang="en"] [data-en].flex,html[data-lang="es"] [data-es].flex{display:flex;}
+
+    @media(max-width:768px){nav{padding:0 1rem;}.nav-links{gap:1rem;}.nav-links a{font-size:0.75rem;letter-spacing:1px;}}
+  </style>
+</head>
+<body>
+<canvas id="starfield"></canvas>
+
+<nav>
+  <div class="nav-logo">J·G·R</div>
+  <ul class="nav-links">
+    <li><a href="index.html" data-en>Home</a><a href="index.html" data-es>Inicio</a></li>
+    <li><a href="education.html" class="active" data-en>Education</a><a href="education.html" class="active" data-es>Formación</a></li>
+    <li><a href="projects.html" data-en>Projects</a><a href="projects.html" data-es>Proyectos</a></li>
+    <li><a href="contact.html" data-en>Contact</a><a href="contact.html" data-es>Contacto</a></li>
+  </ul>
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('es')">ES</button>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-badge"><span data-en>Academic Background</span><span data-es>Formación Académica</span></div>
+  <h1 class="page-title" data-en>Edu<span>cation</span></h1>
+  <h1 class="page-title" data-es>For<span>mación</span></h1>
+  <div class="page-line"></div>
+</div>
+
+<main>
+  <div class="timeline">
+
+    <!-- DEGREE -->
+    <div class="tl-item active-item">
+      <div class="tl-meta">
+        <span data-en>Sept 2021 — Sept 2025 · <span class="tl-period">Bachelor's Degree</span></span>
+        <span data-es>Sept 2021 — Sept 2025 · <span class="tl-period">Grado Universitario</span></span>
+      </div>
+      <div class="tl-title" data-en>Mechanical Engineering</div>
+      <div class="tl-title" data-es>Ingeniería Mecánica</div>
+      <div class="tl-institution">Universidad Carlos III de Madrid · Leganés</div>
+      <div class="tl-body">
+        <div class="tl-corner tl"></div><div class="tl-corner tr"></div>
+        <div class="tl-corner bl"></div><div class="tl-corner br"></div>
+        <p class="tl-desc" data-en>Four-year engineering degree specialized in propulsion systems. Developed a strong balance of theoretical knowledge and hands-on skills across key disciplines, including mechanical design, structural analysis, thermodynamics, manufacturing processes, and numerical simulation.</p>
+        <p class="tl-desc" data-es>Grado de cuatro años en Ingeniería especializado en sistemas de propulsión. He adquirido una sólida combinación de conocimientos teóricos y habilidades prácticas en disciplinas clave, entre las que se incluyen el diseño mecánico, el análisis estructural, la termodinámica, los procesos de fabricación y la simulación numérica.</p>
+        <div class="tag-row">
+          <span class="tag">CAD</span><span class="tag">CFD</span><span class="tag">FEA</span>
+          <span class="tag">Solid Edge</span><span class="tag">MATLAB</span><span class="tag">ANSYS</span>
+          <span class="tag">Thermodynamics</span><span class="tag">Propulsion</span><span class="tag">Fluids</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- HIGH SCHOOL -->
+    <div class="tl-item">
+      <div class="tl-meta">
+        <span data-en>Sept 2019 — Jun 2021 · <span class="tl-period">High School Diploma</span></span>
+        <span data-es>Sept 2019 — Jun 2021 · <span class="tl-period">Bachillerato</span></span>
+      </div>
+      <div class="tl-title" data-en>Science and Technology</div>
+      <div class="tl-title" data-es>Ciencias y Tecnología</div>
+      <div class="tl-institution">IES Padre Juan de Mariana · Talavera de la Reina</div>
+      <div class="tl-body">
+        <div class="tl-corner tl"></div><div class="tl-corner tr"></div>
+        <div class="tl-corner bl"></div><div class="tl-corner br"></div>
+        <p class="tl-desc" data-en>Science and Technology track. Strong foundation in mathematics, physics, and chemistry, preparing for engineering studies at university level.</p>
+        <p class="tl-desc" data-es>Modalidad de Ciencias y Tecnología. Sólida base en matemáticas, física y química, preparatoria para estudios de ingeniería a nivel universitario.</p>
+        <div class="tag-row">
+          <span class="tag">Mathematics</span><span class="tag">Physics</span><span class="tag">Chemistry</span><span class="tag">Programming</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- COURSES -->
+  <div class="courses-section">
+    <p class="section-label" data-en>// SPECIALIZATION COURSES</p>
+    <p class="section-label" data-es>// CURSOS DE ESPECIALIZACIÓN</p>
+    <h2 class="section-title" data-en>Additional Training</h2>
+    <h2 class="section-title" data-es>Formación Adicional</h2>
+    <div class="section-line"></div>
+    <div class="courses-grid">
+      <div class="course-card">
+        <div class="course-period">Jan 2025 – Sept 2025</div>
+        <div class="course-name" data-en>Image Processing &amp; Analysis</div>
+        <div class="course-name" data-es>Procesamiento y Análisis de Imágenes</div>
+        <div class="course-inst">Universidad Carlos III de Madrid</div>
+      </div>
+      <div class="course-card">
+        <div class="course-period">Sept 2025 – Dec 2025</div>
+        <div class="course-name" data-en>Structural Analysis &amp; Design with Abaqus</div>
+        <div class="course-name" data-es>Análisis y Diseño Estructural con Abaqus</div>
+        <div class="course-inst">Universidad Carlos III de Madrid</div>
+      </div>
+      <div class="course-card">
+        <div class="course-period" data-en>Cambridge B2 First (CFE)</div>
+        <div class="course-period" data-es>Cambridge B2 First (CFE)</div>
+        <div class="course-name" data-en>English — Upper Intermediate</div>
+        <div class="course-name" data-es>Inglés — Nivel Intermedio-Alto</div>
+        <div class="course-inst">Cambridge Assessment English</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="skills-section">
+    <p class="section-label" data-en>// TECHNICAL SKILLS</p>
+    <p class="section-label" data-es>// COMPETENCIAS TÉCNICAS</p>
+    <h2 class="section-title" data-en>Tool Proficiency</h2>
+    <h2 class="section-title" data-es>Dominio de Herramientas</h2>
+    <div class="section-line"></div>
+    <div class="skills-grid">
+      <div class="skill-bar-item"><div class="skill-bar-name">AVL Puma Open 2</div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:90%"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-name">AVL Navigator</div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:88%"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-name">Abaqus</div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:82%"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-name">MATLAB</div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:80%"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-name">ANSYS</div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:75%"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-name">Python</div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:72%"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-name">Solid Edge</div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:78%"></div></div></div>
+      <div class="skill-bar-item"><div class="skill-bar-name">CFD / FEA</div><div class="skill-bar-track"><div class="skill-bar-fill" style="width:76%"></div></div></div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>© 2026 Javier Gutiérrez Rodríguez · <span data-en>All rights reserved</span><span data-es>Todos los derechos reservados</span></p>
+</footer>
+
+<script>
+    /* ── BLUEPRINT BACKGROUND ──────────────────────────── */
+  (function() {
+    const canvas = document.getElementById('starfield');
+    const ctx = canvas.getContext('2d');
+    let W, H, t = 0;
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+
+    const crosshairs = [
+      { x: 0.15, y: 0.25, label: 'STA 012.4', sub: 'REF PLANE A' },
+      { x: 0.78, y: 0.18, label: 'STA 047.1', sub: 'FRM 14-B' },
+      { x: 0.85, y: 0.72, label: 'NODE 3C',   sub: 'LOAD PATH' },
+      { x: 0.22, y: 0.78, label: 'STA 091.7', sub: 'DATUM X' },
+      { x: 0.52, y: 0.42, label: 'CTR REF',   sub: 'ORIGIN 0,0,0' },
+    ];
+    const dimLines = [
+      { x1: 0.1,  y1: 0.55, x2: 0.45, y2: 0.55, label: '247.5 mm' },
+      { x1: 0.55, y1: 0.3,  x2: 0.55, y2: 0.65, label: '312.0 mm' },
+      { x1: 0.62, y1: 0.82, x2: 0.9,  y2: 0.82, label: '185.3 mm' },
+    ];
+    const streams = Array.from({length: 6}, (_, i) => ({
+      x: 0.06 + i * 0.17,
+      y: Math.random(),
+      speed: 0.0003 + Math.random() * 0.0004,
+      chars: ['0','1','X','Y','Z','+','-','~','//','±'],
+      opacity: 0.12 + Math.random() * 0.08
+    }));
+
+    function hexGrid(alpha) {
+      const size = 38;
+      const col = size * Math.sqrt(3);
+      const row = size * 1.5;
+      ctx.strokeStyle = `rgba(30,100,200,${alpha})`;
+      ctx.lineWidth = 0.4;
+      for (let y = -size; y < H + size; y += row) {
+        for (let x = -col; x < W + col; x += col) {
+          const offset = (Math.floor(y / row) % 2) * (col / 2);
+          drawHex(x + offset, y, size);
+        }
+      }
+    }
+    function drawHex(cx, cy, r) {
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) {
+        const a = (Math.PI / 180) * (60 * i - 30);
+        const px = cx + r * Math.cos(a);
+        const py = cy + r * Math.sin(a);
+        i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+      ctx.stroke();
+    }
+    function mainGrid(alpha) {
+      const step = 60;
+      ctx.strokeStyle = `rgba(40,120,220,${alpha * 0.5})`;
+      ctx.lineWidth = 0.3;
+      ctx.setLineDash([]);
+      for (let x = 0; x < W; x += step) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+      for (let y = 0; y < H; y += step) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+      ctx.strokeStyle = `rgba(60,150,255,${alpha * 0.7})`;
+      ctx.lineWidth = 0.6;
+      for (let x = 0; x < W; x += step * 5) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+      for (let y = 0; y < H; y += step * 5) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+    }
+    function crosshair(x, y, label, sub, alpha) {
+      const cx = x * W, cy = y * H;
+      const r = 14, gap = 5, arm = 22;
+      ctx.strokeStyle = `rgba(100,180,255,${alpha})`;
+      ctx.lineWidth = 1;
+      ctx.setLineDash([]);
+      ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(cx - r - gap, cy); ctx.lineTo(cx - r - gap - arm, cy);
+      ctx.moveTo(cx + r + gap, cy); ctx.lineTo(cx + r + gap + arm, cy);
+      ctx.moveTo(cx, cy - r - gap); ctx.lineTo(cx, cy - r - gap - arm);
+      ctx.moveTo(cx, cy + r + gap); ctx.lineTo(cx, cy + r + gap + arm);
+      ctx.stroke();
+      ctx.fillStyle = `rgba(100,200,255,${alpha})`;
+      ctx.beginPath(); ctx.arc(cx, cy, 2, 0, Math.PI * 2); ctx.fill();
+      ctx.font = `500 9px 'Share Tech Mono', monospace`;
+      ctx.fillStyle = `rgba(130,200,255,${alpha * 0.9})`;
+      ctx.fillText(label, cx + r + gap + 4, cy - 4);
+      ctx.fillStyle = `rgba(80,150,220,${alpha * 0.7})`;
+      ctx.fillText(sub, cx + r + gap + 4, cy + 9);
+    }
+    function dimLine(x1, y1, x2, y2, label, alpha) {
+      const px1 = x1*W, py1 = y1*H, px2 = x2*W, py2 = y2*H;
+      const isH = Math.abs(py2 - py1) < 2;
+      ctx.strokeStyle = `rgba(80,160,255,${alpha})`;
+      ctx.lineWidth = 0.8;
+      ctx.setLineDash([4, 3]);
+      ctx.beginPath(); ctx.moveTo(px1, py1); ctx.lineTo(px2, py2); ctx.stroke();
+      ctx.setLineDash([]);
+      const arrowLen = 8;
+      if (isH) {
+        ctx.beginPath();
+        ctx.moveTo(px1, py1); ctx.lineTo(px1 + arrowLen, py1 - 4); ctx.moveTo(px1, py1); ctx.lineTo(px1 + arrowLen, py1 + 4);
+        ctx.moveTo(px2, py2); ctx.lineTo(px2 - arrowLen, py2 - 4); ctx.moveTo(px2, py2); ctx.lineTo(px2 - arrowLen, py2 + 4);
+        ctx.stroke();
+      } else {
+        ctx.beginPath();
+        ctx.moveTo(px1, py1); ctx.lineTo(px1 - 4, py1 + arrowLen); ctx.moveTo(px1, py1); ctx.lineTo(px1 + 4, py1 + arrowLen);
+        ctx.moveTo(px2, py2); ctx.lineTo(px2 - 4, py2 - arrowLen); ctx.moveTo(px2, py2); ctx.lineTo(px2 + 4, py2 - arrowLen);
+        ctx.stroke();
+      }
+      const mx = (px1 + px2) / 2, my = (py1 + py2) / 2;
+      ctx.font = `500 9px 'Share Tech Mono', monospace`;
+      const tw = ctx.measureText(label).width;
+      ctx.fillStyle = `rgba(6,14,30,0.85)`;
+      ctx.fillRect(mx - tw/2 - 3, my - 8, tw + 6, 12);
+      ctx.fillStyle = `rgba(120,200,255,${alpha})`;
+      ctx.fillText(label, mx - tw/2, my + 1);
+    }
+    function scanLine(alpha) {
+      const y = ((t * 0.00015) % 1) * H;
+      const grad = ctx.createLinearGradient(0, y - 60, 0, y + 60);
+      grad.addColorStop(0, 'rgba(0,150,255,0)');
+      grad.addColorStop(0.5, `rgba(0,150,255,${alpha * 0.12})`);
+      grad.addColorStop(1, 'rgba(0,150,255,0)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, y - 60, W, 120);
+    }
+    function cornerFrames(alpha) {
+      const s = 80;
+      const corners = [[0,0,1,1],[W,0,-1,1],[W,H,-1,-1],[0,H,1,-1]];
+      ctx.strokeStyle = `rgba(80,160,255,${alpha})`;
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([]);
+      corners.forEach(([cx, cy, dx, dy]) => {
+        ctx.beginPath();
+        ctx.moveTo(cx + dx*s, cy); ctx.lineTo(cx, cy); ctx.lineTo(cx, cy + dy*s);
+        ctx.stroke();
+        for (let i = 1; i <= 3; i++) {
+          const tl = 8 - i * 2;
+          ctx.beginPath();
+          ctx.moveTo(cx + dx * i * 20, cy + dy * 3); ctx.lineTo(cx + dx * i * 20, cy - dy * tl); ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(cx + dx * 3, cy + dy * i * 20); ctx.lineTo(cx - dx * tl, cy + dy * i * 20); ctx.stroke();
+        }
+      });
+    }
+    function titleBlock(alpha) {
+      const bw = 220, bh = 72, bx = W - bw - 18, by = H - bh - 18;
+      ctx.strokeStyle = `rgba(60,140,255,${alpha})`;
+      ctx.lineWidth = 0.8;
+      ctx.setLineDash([]);
+      ctx.strokeRect(bx, by, bw, bh);
+      ctx.beginPath(); ctx.moveTo(bx, by + 18); ctx.lineTo(bx + bw, by + 18); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(bx + 100, by + 18); ctx.lineTo(bx + 100, by + bh); ctx.stroke();
+      ctx.font = `700 8px 'Share Tech Mono', monospace`;
+      ctx.fillStyle = `rgba(100,180,255,${alpha})`;
+      ctx.fillText('PORTFOLIO - MECH ENG', bx + 6, by + 12);
+      ctx.font = `500 7px 'Share Tech Mono', monospace`;
+      ctx.fillStyle = `rgba(70,140,220,${alpha * 0.8})`;
+      ctx.fillText('DWG NO:', bx + 6, by + 30);
+      ctx.fillText('J.G.R-2026-001', bx + 6, by + 41);
+      ctx.fillText('SCALE:', bx + 6, by + 54);
+      ctx.fillText('1:1', bx + 6, by + 64);
+      ctx.fillText('REV:', bx + 106, by + 30);
+      ctx.fillText('A', bx + 106, by + 41);
+      ctx.fillText('CLASS:', bx + 106, by + 54);
+      ctx.fillText('UNCLASSIFIED', bx + 106, by + 64);
+    }
+    function dataStreams(alpha) {
+      ctx.font = `500 8px 'Share Tech Mono', monospace`;
+      streams.forEach(s => {
+        s.y += s.speed;
+        if (s.y > 1) s.y = 0;
+        for (let i = 0; i < 8; i++) {
+          const fy = ((s.y + i * 0.04) % 1) * H;
+          const fade = 1 - i * 0.13;
+          const char = s.chars[Math.floor((t * 0.01 + i) % s.chars.length)];
+          ctx.fillStyle = `rgba(40,130,255,${alpha * s.opacity * fade})`;
+          ctx.fillText(char, s.x * W, fy);
+        }
+      });
+    }
+    function draw() {
+      t++;
+      ctx.clearRect(0, 0, W, H);
+      const baseAlpha = 0.55;
+      mainGrid(baseAlpha * 0.5);
+      hexGrid(baseAlpha * 0.18);
+      dataStreams(baseAlpha);
+      scanLine(baseAlpha);
+      dimLines.forEach(d => dimLine(d.x1, d.y1, d.x2, d.y2, d.label, baseAlpha * 0.55));
+      crosshairs.forEach(c => crosshair(c.x, c.y, c.label, c.sub, baseAlpha * 0.65));
+      cornerFrames(baseAlpha * 0.8);
+      titleBlock(baseAlpha * 0.6);
+      requestAnimationFrame(draw);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+    draw();
+  })();
+
+
+  function setLang(lang){
+    document.documentElement.setAttribute('data-lang',lang);
+    localStorage.setItem('lang',lang);
+    document.querySelectorAll('.lang-btn').forEach(b=>{b.classList.toggle('active',b.textContent===lang.toUpperCase());});
+  }
+  const saved=localStorage.getItem('lang')||'en';
+  setLang(saved);
+</script>
+</body>
+</html>

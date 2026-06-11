@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects — Javier Gutiérrez</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:#0E0E0E; --bg2:#141414; --panel:#1A1A1A; --border:#2A2A2A;
+      --accent:#D4A017; --accent2:#A07810; --text:#F0EDE6; --muted:#8A9BB5;
+      --success:#D4A017;
+      --font-disp:'Rajdhani',sans-serif; --font-body:'Inter',sans-serif; --font-mono:'Share Tech Mono',monospace;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.6;overflow-x:hidden;}
+    a{color:var(--accent);text-decoration:none;}
+    a:hover{text-decoration:underline;}
+    ::-webkit-scrollbar{width:6px;} ::-webkit-scrollbar-track{background:var(--bg);} ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:60px;background:rgba(10,14,26,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+    .nav-logo{font-family:var(--font-disp);font-size:1.2rem;font-weight:700;letter-spacing:3px;color:var(--accent);text-transform:uppercase;}
+    .nav-links{display:flex;gap:2rem;align-items:center;list-style:none;}
+    .nav-links a{font-family:var(--font-disp);font-size:0.85rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:color 0.2s;position:relative;}
+    .nav-links a:hover,.nav-links a.active{color:var(--accent);text-decoration:none;}
+    .nav-links a.active::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--accent);}
+    .lang-toggle{display:flex;border:1px solid var(--border);border-radius:3px;overflow:hidden;}
+    .lang-btn{background:none;border:none;color:var(--muted);font-family:var(--font-mono);font-size:0.7rem;letter-spacing:1px;padding:4px 10px;cursor:pointer;transition:all 0.2s;}
+    .lang-btn.active{background:var(--accent);color:var(--bg);font-weight:700;}
+    .lang-btn:not(.active):hover{color:var(--text);background:var(--panel);}
+
+    #starfield{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+
+    .page-header{position:relative;z-index:1;padding:120px 2rem 3rem;max-width:960px;margin:0 auto;}
+    .page-badge{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:4px;color:var(--accent);text-transform:uppercase;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.5rem;}
+    .page-badge::before{content:'';width:24px;height:1px;background:var(--accent);}
+    .page-title{font-family:var(--font-disp);font-size:clamp(2.5rem,6vw,4.5rem);font-weight:700;line-height:0.95;color:var(--text);}
+    .page-title span{color:var(--accent);}
+    .page-line{width:60px;height:2px;background:linear-gradient(90deg,var(--accent),transparent);margin-top:1rem;}
+
+    main{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 2rem 6rem;}
+
+    /* Projects grid */
+    .projects-grid{display:grid;gap:2rem;}
+
+    .project-card{border:1px solid var(--border);background:var(--panel);position:relative;transition:border-color 0.3s;overflow:hidden;}
+    .project-card:hover{border-color:var(--accent);}
+    .project-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),transparent);transform:scaleX(0);transform-origin:left;transition:transform 0.3s;}
+    .project-card:hover::before{transform:scaleX(1);}
+
+    .project-inner{display:grid;grid-template-columns:1fr auto;gap:2rem;padding:2rem;align-items:start;}
+    .project-num{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:3px;color:var(--accent);margin-bottom:0.5rem;text-transform:uppercase;}
+    .project-title{font-family:var(--font-disp);font-size:1.6rem;font-weight:700;color:var(--text);margin-bottom:0.3rem;}
+    .project-org{font-family:var(--font-mono);font-size:0.7rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:1rem;}
+    .project-desc{color:var(--muted);font-size:0.9rem;line-height:1.7;margin-bottom:1rem;}
+    .project-tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1.5rem;}
+    .tag{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:2px;color:var(--accent);border:1px solid rgba(212,160,23,0.3);padding:3px 8px;text-transform:uppercase;}
+
+    .project-actions{display:flex;gap:0.75rem;flex-wrap:wrap;}
+    .btn-sm{font-family:var(--font-disp);font-size:0.72rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:7px 16px;border:1px solid var(--accent);color:var(--accent);background:transparent;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:0.4rem;}
+    .btn-sm:hover{background:var(--accent);color:var(--bg);text-decoration:none;}
+    .btn-sm.solid{background:var(--accent);color:var(--bg);}
+    .btn-sm.solid:hover{background:transparent;color:var(--accent);}
+
+    .project-badge{
+      font-family:var(--font-mono);font-size:0.6rem;letter-spacing:2px;
+      color:var(--success);border:1px solid rgba(212,160,23,0.3);
+      padding:4px 10px;text-transform:uppercase;white-space:nowrap;
+      height:fit-content;
+    }
+    .project-badge.wip{color:#FFB347;border-color:rgba(255,179,71,0.3);}
+
+    /* PDF zone */
+    .pdf-zone{border-top:1px solid var(--border);padding:1.25rem 2rem;background:rgba(212,160,23,0.03);display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+    .pdf-icon{font-size:1.2rem;color:var(--accent);}
+    .pdf-name{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:2px;color:var(--muted);flex:1;}
+    .pdf-placeholder{font-family:var(--font-mono);font-size:0.65rem;letter-spacing:2px;color:var(--border);font-style:italic;}
+
+    footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:2rem;text-align:center;font-family:var(--font-mono);font-size:0.65rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase;}
+
+    [data-en],[data-es]{display:none;}
+    html[data-lang="en"] [data-en]{display:block;}
+    html[data-lang="es"] [data-es]{display:block;}
+    html[data-lang="en"] [data-en].inline,html[data-lang="es"] [data-es].inline{display:inline;}
+    html[data-lang="en"] [data-en].flex,html[data-lang="es"] [data-es].flex{display:flex;}
+    html[data-lang="en"] [data-en].grid,html[data-lang="es"] [data-es].grid{display:grid;}
+
+    @media(max-width:768px){
+      nav{padding:0 1rem;}.nav-links{gap:1rem;}.nav-links a{font-size:0.75rem;letter-spacing:1px;}
+      .project-inner{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+<canvas id="starfield"></canvas>
+
+<nav>
+  <div class="nav-logo">J·G·R</div>
+  <ul class="nav-links">
+    <li><a href="index.html" data-en>Home</a><a href="index.html" data-es>Inicio</a></li>
+    <li><a href="education.html" data-en>Education</a><a href="education.html" data-es>Formación</a></li>
+    <li><a href="projects.html" class="active" data-en>Projects</a><a href="projects.html" class="active" data-es>Proyectos</a></li>
+    <li><a href="contact.html" data-en>Contact</a><a href="contact.html" data-es>Contacto</a></li>
+  </ul>
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('es')">ES</button>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-badge"><span data-en>Engineering Work</span><span data-es>Trabajo de Ingeniería</span></div>
+  <h1 class="page-title" data-en>Pro<span>jects</span></h1>
+  <h1 class="page-title" data-es>Pro<span>yectos</span></h1>
+  <div class="page-line"></div>
+</div>
+
+<main>
+  <div class="projects-grid">
+
+    <!-- PROJECT 1 -->
+    <div class="project-card">
+      <div class="project-inner">
+        <div>
+          <div class="project-num">// PROJECT 01</div>
+          <h2 class="project-title" data-en>ICE &amp; Hybrid Engine Test Methods</h2>
+          <h2 class="project-title" data-es>Métodos de Ensayo en Motores ICE e Híbridos</h2>
+          <h2 class="project-org" data-en>HORSE R&amp;D&amp;I · Nov 2025 – Present</h2>
+          <h2 class="project-org" data-es>HORSE R&amp;D&amp;I · Nov 2025 – Actualidad</h2>
+          <p class="project-desc" data-en>Development and implementation of durability test methods for mechanical validation of internal combustion, mild-hybrid and hybrid engines. Includes calibration and tuning method development, and technical definition, configuration and commissioning of engine and powertrain test beds across new development and upgrade projects.</p>
+          <p class="project-desc" data-es>Desarrollo e implementación de métodos de ensayo de durabilidad para la validación mecánica de motores de combustión interna, mild-hybrid e híbridos. Incluye desarrollo de métodos de calibración y ajuste, así como la definición técnica, configuración y puesta en marcha de bancos de ensayo de motores y transmisiones en proyectos nuevos y de actualización.</p>
+          <div class="project-tags">
+            <span class="tag">AVL Puma Open 2</span><span class="tag">AVL Navigator</span>
+            <span class="tag">ICE Validation</span><span class="tag">Hybrid Powertrain</span>
+            <span class="tag">Test Bench</span><span class="tag">Durability</span>
+          </div>
+          <div class="project-actions">
+            <!-- PDF link: update path when file is added to documents/ -->
+            <a href="../documents/project_horse_rdi.pdf" class="btn-sm" target="_blank">
+              <span>⬇</span>
+              <span data-en>Download Report</span>
+              <span data-es>Descargar Informe</span>
+            </a>
+          </div>
+        </div>
+        <div class="project-badge" data-en>Active</div>
+        <div class="project-badge" data-es>Activo</div>
+      </div>
+      <div class="pdf-zone">
+        <span class="pdf-icon">📄</span>
+        <span class="pdf-name" data-en>project_horse_rdi.pdf — Place file in /documents/</span>
+        <span class="pdf-name" data-es>project_horse_rdi.pdf — Coloca el archivo en /documents/</span>
+      </div>
+    </div>
+
+    <!-- PROJECT 2 -->
+    <div class="project-card">
+      <div class="project-inner">
+        <div>
+          <div class="project-num">// PROJECT 02</div>
+          <h2 class="project-title" data-en>Combustion Image Processing</h2>
+          <h2 class="project-title" data-es>Procesamiento de Imágenes de Combustión</h2>
+          <h2 class="project-org" data-en>Universidad Carlos III de Madrid · Jan – Sept 2025</h2>
+          <h2 class="project-org" data-es>Universidad Carlos III de Madrid · Ene – Sept 2025</h2>
+          <p class="project-desc" data-en>Development of MATLAB code applying image processing techniques to videos from hydrogen and methane combustion experiments in a Hele-Shaw cell. Implementation of advanced digital processing functions focused on edge detection to extract flame front characteristics and quantify combustion behaviour.</p>
+          <p class="project-desc" data-es>Desarrollo de código MATLAB que aplica técnicas de procesamiento de imágenes a vídeos de experimentos de combustión de hidrógeno y metano en una celda Hele-Shaw. Implementación de funciones de procesamiento digital avanzado centradas en la detección de bordes para extraer características del frente de llama y cuantificar el comportamiento de la combustión.</p>
+          <div class="project-tags">
+            <span class="tag">MATLAB</span><span class="tag">Image Processing</span>
+            <span class="tag">Edge Detection</span><span class="tag">Combustion</span>
+            <span class="tag">Hydrogen</span><span class="tag">Hele-Shaw Cell</span>
+          </div>
+          <div class="project-actions">
+            <a href="../documents/project_image_processing.pdf" class="btn-sm" target="_blank">
+              <span>⬇</span>
+              <span data-en>Download Report</span>
+              <span data-es>Descargar Informe</span>
+            </a>
+          </div>
+        </div>
+        <div class="project-badge">UC3M</div>
+      </div>
+      <div class="pdf-zone">
+        <span class="pdf-icon">📄</span>
+        <span class="pdf-name" data-en>project_image_processing.pdf — Place file in /documents/</span>
+        <span class="pdf-name" data-es>project_image_processing.pdf — Coloca el archivo en /documents/</span>
+      </div>
+    </div>
+
+    <!-- PROJECT 3 -->
+    <div class="project-card">
+      <div class="project-inner">
+        <div>
+          <div class="project-num">// PROJECT 03</div>
+          <h2 class="project-title" data-en>Single-Seater Chassis Design &amp; FEA</h2>
+          <h2 class="project-title" data-es>Diseño de Chasis Monoplaza y FEA</h2>
+          <h2 class="project-org" data-en>Universidad Carlos III de Madrid · Sept – Dec 2025</h2>
+          <h2 class="project-org" data-es>Universidad Carlos III de Madrid · Sept – Dec 2025</h2>
+          <p class="project-desc" data-en>Design of a single-seater racing chassis in Abaqus meeting required dimensional and weight constraints. Finite Element Analysis (FEA) was performed to evaluate torsional strength and structural integrity under load. The design was iteratively optimized based on simulation results, improving stiffness-to-weight ratio.</p>
+          <p class="project-desc" data-es>Diseño de un chasis de monoplaza de carreras en Abaqus que cumple las restricciones dimensionales y de peso exigidas. Se realizó un Análisis de Elementos Finitos (FEA) para evaluar la resistencia a torsión e integridad estructural bajo carga. El diseño se optimizó iterativamente en base a los resultados de simulación, mejorando la relación rigidez-peso.</p>
+          <div class="project-tags">
+            <span class="tag">Abaqus</span><span class="tag">FEA</span>
+            <span class="tag">Structural Analysis</span><span class="tag">Chassis Design</span>
+            <span class="tag">Torsional Strength</span><span class="tag">Optimization</span>
+          </div>
+          <div class="project-actions">
+            <a href="../documents/project_chassis_fea.pdf" class="btn-sm" target="_blank">
+              <span>⬇</span>
+              <span data-en>Download Report</span>
+              <span data-es>Descargar Informe</span>
+            </a>
+          </div>
+        </div>
+        <div class="project-badge">UC3M</div>
+      </div>
+      <div class="pdf-zone">
+        <span class="pdf-icon">📄</span>
+        <span class="pdf-name" data-en>project_chassis_fea.pdf — Place file in /documents/</span>
+        <span class="pdf-name" data-es>project_chassis_fea.pdf — Coloca el archivo en /documents/</span>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <p>© 2026 Javier Gutiérrez Rodríguez · <span data-en>All rights reserved</span><span data-es>Todos los derechos reservados</span></p>
+</footer>
+
+<script>
+    /* ── BLUEPRINT BACKGROUND ──────────────────────────── */
+  (function() {
+    const canvas = document.getElementById('starfield');
+    const ctx = canvas.getContext('2d');
+    let W, H, t = 0;
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+
+    const crosshairs = [
+      { x: 0.15, y: 0.25, label: 'STA 012.4', sub: 'REF PLANE A' },
+      { x: 0.78, y: 0.18, label: 'STA 047.1', sub: 'FRM 14-B' },
+      { x: 0.85, y: 0.72, label: 'NODE 3C',   sub: 'LOAD PATH' },
+      { x: 0.22, y: 0.78, label: 'STA 091.7', sub: 'DATUM X' },
+      { x: 0.52, y: 0.42, label: 'CTR REF',   sub: 'ORIGIN 0,0,0' },
+    ];
+    const dimLines = [
+      { x1: 0.1,  y1: 0.55, x2: 0.45, y2: 0.55, label: '247.5 mm' },
+      { x1: 0.55, y1: 0.3,  x2: 0.55, y2: 0.65, label: '312.0 mm' },
+      { x1: 0.62, y1: 0.82, x2: 0.9,  y2: 0.82, label: '185.3 mm' },
+    ];
+    const streams = Array.from({length: 6}, (_, i) => ({
+      x: 0.06 + i * 0.17,
+      y: Math.random(),
+      speed: 0.0003 + Math.random() * 0.0004,
+      chars: ['0','1','X','Y','Z','+','-','~','//','±'],
+      opacity: 0.12 + Math.random() * 0.08
+    }));
+
+    function hexGrid(alpha) {
+      const size = 38;
+      const col = size * Math.sqrt(3);
+      const row = size * 1.5;
+      ctx.strokeStyle = `rgba(30,100,200,${alpha})`;
+      ctx.lineWidth = 0.4;
+      for (let y = -size; y < H + size; y += row) {
+        for (let x = -col; x < W + col; x += col) {
+          const offset = (Math.floor(y / row) % 2) * (col / 2);
+          drawHex(x + offset, y, size);
+        }
+      }
+    }
+    function drawHex(cx, cy, r) {
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) {
+        const a = (Math.PI / 180) * (60 * i - 30);
+        const px = cx + r * Math.cos(a);
+        const py = cy + r * Math.sin(a);
+        i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+      ctx.stroke();
+    }
+    function mainGrid(alpha) {
+      const step = 60;
+      ctx.strokeStyle = `rgba(40,120,220,${alpha * 0.5})`;
+      ctx.lineWidth = 0.3;
+      ctx.setLineDash([]);
+      for (let x = 0; x < W; x += step) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+      for (let y = 0; y < H; y += step) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+      ctx.strokeStyle = `rgba(60,150,255,${alpha * 0.7})`;
+      ctx.lineWidth = 0.6;
+      for (let x = 0; x < W; x += step * 5) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+      for (let y = 0; y < H; y += step * 5) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+    }
+    function crosshair(x, y, label, sub, alpha) {
+      const cx = x * W, cy = y * H;
+      const r = 14, gap = 5, arm = 22;
+      ctx.strokeStyle = `rgba(100,180,255,${alpha})`;
+      ctx.lineWidth = 1;
+      ctx.setLineDash([]);
+      ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(cx - r - gap, cy); ctx.lineTo(cx - r - gap - arm, cy);
+      ctx.moveTo(cx + r + gap, cy); ctx.lineTo(cx + r + gap + arm, cy);
+      ctx.moveTo(cx, cy - r - gap); ctx.lineTo(cx, cy - r - gap - arm);
+      ctx.moveTo(cx, cy + r + gap); ctx.lineTo(cx, cy + r + gap + arm);
+      ctx.stroke();
+      ctx.fillStyle = `rgba(100,200,255,${alpha})`;
+      ctx.beginPath(); ctx.arc(cx, cy, 2, 0, Math.PI * 2); ctx.fill();
+      ctx.font = `500 9px 'Share Tech Mono', monospace`;
+      ctx.fillStyle = `rgba(130,200,255,${alpha * 0.9})`;
+      ctx.fillText(label, cx + r + gap + 4, cy - 4);
+      ctx.fillStyle = `rgba(80,150,220,${alpha * 0.7})`;
+      ctx.fillText(sub, cx + r + gap + 4, cy + 9);
+    }
+    function dimLine(x1, y1, x2, y2, label, alpha) {
+      const px1 = x1*W, py1 = y1*H, px2 = x2*W, py2 = y2*H;
+      const isH = Math.abs(py2 - py1) < 2;
+      ctx.strokeStyle = `rgba(80,160,255,${alpha})`;
+      ctx.lineWidth = 0.8;
+      ctx.setLineDash([4, 3]);
+      ctx.beginPath(); ctx.moveTo(px1, py1); ctx.lineTo(px2, py2); ctx.stroke();
+      ctx.setLineDash([]);
+      const arrowLen = 8;
+      if (isH) {
+        ctx.beginPath();
+        ctx.moveTo(px1, py1); ctx.lineTo(px1 + arrowLen, py1 - 4); ctx.moveTo(px1, py1); ctx.lineTo(px1 + arrowLen, py1 + 4);
+        ctx.moveTo(px2, py2); ctx.lineTo(px2 - arrowLen, py2 - 4); ctx.moveTo(px2, py2); ctx.lineTo(px2 - arrowLen, py2 + 4);
+        ctx.stroke();
+      } else {
+        ctx.beginPath();
+        ctx.moveTo(px1, py1); ctx.lineTo(px1 - 4, py1 + arrowLen); ctx.moveTo(px1, py1); ctx.lineTo(px1 + 4, py1 + arrowLen);
+        ctx.moveTo(px2, py2); ctx.lineTo(px2 - 4, py2 - arrowLen); ctx.moveTo(px2, py2); ctx.lineTo(px2 + 4, py2 - arrowLen);
+        ctx.stroke();
+      }
+      const mx = (px1 + px2) / 2, my = (py1 + py2) / 2;
+      ctx.font = `500 9px 'Share Tech Mono', monospace`;
+      const tw = ctx.measureText(label).width;
+      ctx.fillStyle = `rgba(6,14,30,0.85)`;
+      ctx.fillRect(mx - tw/2 - 3, my - 8, tw + 6, 12);
+      ctx.fillStyle = `rgba(120,200,255,${alpha})`;
+      ctx.fillText(label, mx - tw/2, my + 1);
+    }
+    function scanLine(alpha) {
+      const y = ((t * 0.00015) % 1) * H;
+      const grad = ctx.createLinearGradient(0, y - 60, 0, y + 60);
+      grad.addColorStop(0, 'rgba(0,150,255,0)');
+      grad.addColorStop(0.5, `rgba(0,150,255,${alpha * 0.12})`);
+      grad.addColorStop(1, 'rgba(0,150,255,0)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, y - 60, W, 120);
+    }
+    function cornerFrames(alpha) {
+      const s = 80;
+      const corners = [[0,0,1,1],[W,0,-1,1],[W,H,-1,-1],[0,H,1,-1]];
+      ctx.strokeStyle = `rgba(80,160,255,${alpha})`;
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([]);
+      corners.forEach(([cx, cy, dx, dy]) => {
+        ctx.beginPath();
+        ctx.moveTo(cx + dx*s, cy); ctx.lineTo(cx, cy); ctx.lineTo(cx, cy + dy*s);
+        ctx.stroke();
+        for (let i = 1; i <= 3; i++) {
+          const tl = 8 - i * 2;
+          ctx.beginPath();
+          ctx.moveTo(cx + dx * i * 20, cy + dy * 3); ctx.lineTo(cx + dx * i * 20, cy - dy * tl); ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(cx + dx * 3, cy + dy * i * 20); ctx.lineTo(cx - dx * tl, cy + dy * i * 20); ctx.stroke();
+        }
+      });
+    }
+    function titleBlock(alpha) {
+      const bw = 220, bh = 72, bx = W - bw - 18, by = H - bh - 18;
+      ctx.strokeStyle = `rgba(60,140,255,${alpha})`;
+      ctx.lineWidth = 0.8;
+      ctx.setLineDash([]);
+      ctx.strokeRect(bx, by, bw, bh);
+      ctx.beginPath(); ctx.moveTo(bx, by + 18); ctx.lineTo(bx + bw, by + 18); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(bx + 100, by + 18); ctx.lineTo(bx + 100, by + bh); ctx.stroke();
+      ctx.font = `700 8px 'Share Tech Mono', monospace`;
+      ctx.fillStyle = `rgba(100,180,255,${alpha})`;
+      ctx.fillText('PORTFOLIO - MECH ENG', bx + 6, by + 12);
+      ctx.font = `500 7px 'Share Tech Mono', monospace`;
+      ctx.fillStyle = `rgba(70,140,220,${alpha * 0.8})`;
+      ctx.fillText('DWG NO:', bx + 6, by + 30);
+      ctx.fillText('J.G.R-2026-001', bx + 6, by + 41);
+      ctx.fillText('SCALE:', bx + 6, by + 54);
+      ctx.fillText('1:1', bx + 6, by + 64);
+      ctx.fillText('REV:', bx + 106, by + 30);
+      ctx.fillText('A', bx + 106, by + 41);
+      ctx.fillText('CLASS:', bx + 106, by + 54);
+      ctx.fillText('UNCLASSIFIED', bx + 106, by + 64);
+    }
+    function dataStreams(alpha) {
+      ctx.font = `500 8px 'Share Tech Mono', monospace`;
+      streams.forEach(s => {
+        s.y += s.speed;
+        if (s.y > 1) s.y = 0;
+        for (let i = 0; i < 8; i++) {
+          const fy = ((s.y + i * 0.04) % 1) * H;
+          const fade = 1 - i * 0.13;
+          const char = s.chars[Math.floor((t * 0.01 + i) % s.chars.length)];
+          ctx.fillStyle = `rgba(40,130,255,${alpha * s.opacity * fade})`;
+          ctx.fillText(char, s.x * W, fy);
+        }
+      });
+    }
+    function draw() {
+      t++;
+      ctx.clearRect(0, 0, W, H);
+      const baseAlpha = 0.55;
+      mainGrid(baseAlpha * 0.5);
+      hexGrid(baseAlpha * 0.18);
+      dataStreams(baseAlpha);
+      scanLine(baseAlpha);
+      dimLines.forEach(d => dimLine(d.x1, d.y1, d.x2, d.y2, d.label, baseAlpha * 0.55));
+      crosshairs.forEach(c => crosshair(c.x, c.y, c.label, c.sub, baseAlpha * 0.65));
+      cornerFrames(baseAlpha * 0.8);
+      titleBlock(baseAlpha * 0.6);
+      requestAnimationFrame(draw);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+    draw();
+  })();
+
+
+  function setLang(lang){
+    document.documentElement.setAttribute('data-lang',lang);
+    localStorage.setItem('lang',lang);
+    document.querySelectorAll('.lang-btn').forEach(b=>{b.classList.toggle('active',b.textContent===lang.toUpperCase());});
+  }
+  const saved=localStorage.getItem('lang')||'en';
+  setLang(saved);
+</script>
+</body>
+</html>
