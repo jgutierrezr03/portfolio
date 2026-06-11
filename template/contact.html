@@ -159,7 +159,7 @@
         <div class="info-card">
           <div class="info-card-icon">🔗</div>
           <div class="info-card-label">LinkedIn</div>
-          <div class="info-card-value"><a href="https://linkedin.com/in/jgutierrezr2003" target="_blank">linkedin.com/in/jgutierrezr2003</a></div>
+          <div class="info-card-value"><a href="https://linkedin.com/in/jgutierrezr2003" target="_blank">linkedin.com/in/jgutierrezr03</a></div>
         </div>
       </div>
     </div>
@@ -212,7 +212,7 @@
         <div class="cv-flag">🇬🇧</div>
         <div class="cv-lang-label">English Version</div>
         <div class="cv-title">Curriculum Vitae</div>
-        <p class="cv-desc">Full CV in English — updated 2025. Includes experience, education, skills and competencies.</p>
+        <p class="cv-desc">Full CV in English — updated 2026. Includes experience, education, skills and competencies.</p>
         <a href="../documents/English_CV.pdf" download class="btn-dl">
           <span>⬇</span> Download EN
         </a>
@@ -221,7 +221,7 @@
         <div class="cv-flag">🇪🇸</div>
         <div class="cv-lang-label">Versión en Español</div>
         <div class="cv-title">Curriculum Vitae</div>
-        <p class="cv-desc">CV completo en español — actualizado 2025. Incluye experiencia, formación, habilidades y competencias.</p>
+        <p class="cv-desc">CV completo en español — actualizado 2026. Incluye experiencia, formación, habilidades y competencias.</p>
         <!-- Place Spanish CV as documents/Spanish_CV.pdf -->
         <a href="../documents/Spanish_CV.pdf" download class="btn-dl">
           <span>⬇</span> Descargar ES
@@ -232,18 +232,209 @@
 </main>
 
 <footer>
-  <p>© 2025 Javier Gutiérrez Rodríguez · <span data-en>All rights reserved</span><span data-es>Todos los derechos reservados</span></p>
+  <p>© 2026 Javier Gutiérrez Rodríguez · <span data-en>All rights reserved</span><span data-es>Todos los derechos reservados</span></p>
 </footer>
 
 <script>
-  const canvas=document.getElementById('starfield');
-  const ctx=canvas.getContext('2d');
-  let W,H,stars=[];
-  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
-  function initStars(){stars=Array.from({length:120},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+0.2,a:Math.random(),speed:Math.random()*0.003+0.001}));}
-  function drawStars(){ctx.clearRect(0,0,W,H);stars.forEach(s=>{s.a+=s.speed;const alpha=(Math.sin(s.a)*0.5+0.5)*0.7+0.1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(212,160,23,${alpha})`;ctx.fill();});requestAnimationFrame(drawStars);}
-  window.addEventListener('resize',()=>{resize();initStars();});
-  resize();initStars();drawStars();
+    /* ── BLUEPRINT BACKGROUND ──────────────────────────── */
+  (function() {
+    const canvas = document.getElementById('starfield');
+    const ctx = canvas.getContext('2d');
+    let W, H, t = 0;
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+
+    const crosshairs = [
+      { x: 0.15, y: 0.25, label: 'STA 012.4', sub: 'REF PLANE A' },
+      { x: 0.78, y: 0.18, label: 'STA 047.1', sub: 'FRM 14-B' },
+      { x: 0.85, y: 0.72, label: 'NODE 3C',   sub: 'LOAD PATH' },
+      { x: 0.22, y: 0.78, label: 'STA 091.7', sub: 'DATUM X' },
+      { x: 0.52, y: 0.42, label: 'CTR REF',   sub: 'ORIGIN 0,0,0' },
+    ];
+    const dimLines = [
+      { x1: 0.1,  y1: 0.55, x2: 0.45, y2: 0.55, label: '247.5 mm' },
+      { x1: 0.55, y1: 0.3,  x2: 0.55, y2: 0.65, label: '312.0 mm' },
+      { x1: 0.62, y1: 0.82, x2: 0.9,  y2: 0.82, label: '185.3 mm' },
+    ];
+    const streams = Array.from({length: 6}, (_, i) => ({
+      x: 0.06 + i * 0.17,
+      y: Math.random(),
+      speed: 0.0003 + Math.random() * 0.0004,
+      chars: ['0','1','X','Y','Z','+','-','~','//','±'],
+      opacity: 0.12 + Math.random() * 0.08
+    }));
+
+    function hexGrid(alpha) {
+      const size = 38;
+      const col = size * Math.sqrt(3);
+      const row = size * 1.5;
+      ctx.strokeStyle = `rgba(30,100,200,${alpha})`;
+      ctx.lineWidth = 0.4;
+      for (let y = -size; y < H + size; y += row) {
+        for (let x = -col; x < W + col; x += col) {
+          const offset = (Math.floor(y / row) % 2) * (col / 2);
+          drawHex(x + offset, y, size);
+        }
+      }
+    }
+    function drawHex(cx, cy, r) {
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) {
+        const a = (Math.PI / 180) * (60 * i - 30);
+        const px = cx + r * Math.cos(a);
+        const py = cy + r * Math.sin(a);
+        i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+      ctx.stroke();
+    }
+    function mainGrid(alpha) {
+      const step = 60;
+      ctx.strokeStyle = `rgba(40,120,220,${alpha * 0.5})`;
+      ctx.lineWidth = 0.3;
+      ctx.setLineDash([]);
+      for (let x = 0; x < W; x += step) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+      for (let y = 0; y < H; y += step) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+      ctx.strokeStyle = `rgba(60,150,255,${alpha * 0.7})`;
+      ctx.lineWidth = 0.6;
+      for (let x = 0; x < W; x += step * 5) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+      for (let y = 0; y < H; y += step * 5) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+    }
+    function crosshair(x, y, label, sub, alpha) {
+      const cx = x * W, cy = y * H;
+      const r = 14, gap = 5, arm = 22;
+      ctx.strokeStyle = `rgba(100,180,255,${alpha})`;
+      ctx.lineWidth = 1;
+      ctx.setLineDash([]);
+      ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(cx - r - gap, cy); ctx.lineTo(cx - r - gap - arm, cy);
+      ctx.moveTo(cx + r + gap, cy); ctx.lineTo(cx + r + gap + arm, cy);
+      ctx.moveTo(cx, cy - r - gap); ctx.lineTo(cx, cy - r - gap - arm);
+      ctx.moveTo(cx, cy + r + gap); ctx.lineTo(cx, cy + r + gap + arm);
+      ctx.stroke();
+      ctx.fillStyle = `rgba(100,200,255,${alpha})`;
+      ctx.beginPath(); ctx.arc(cx, cy, 2, 0, Math.PI * 2); ctx.fill();
+      ctx.font = `500 9px 'Share Tech Mono', monospace`;
+      ctx.fillStyle = `rgba(130,200,255,${alpha * 0.9})`;
+      ctx.fillText(label, cx + r + gap + 4, cy - 4);
+      ctx.fillStyle = `rgba(80,150,220,${alpha * 0.7})`;
+      ctx.fillText(sub, cx + r + gap + 4, cy + 9);
+    }
+    function dimLine(x1, y1, x2, y2, label, alpha) {
+      const px1 = x1*W, py1 = y1*H, px2 = x2*W, py2 = y2*H;
+      const isH = Math.abs(py2 - py1) < 2;
+      ctx.strokeStyle = `rgba(80,160,255,${alpha})`;
+      ctx.lineWidth = 0.8;
+      ctx.setLineDash([4, 3]);
+      ctx.beginPath(); ctx.moveTo(px1, py1); ctx.lineTo(px2, py2); ctx.stroke();
+      ctx.setLineDash([]);
+      const arrowLen = 8;
+      if (isH) {
+        ctx.beginPath();
+        ctx.moveTo(px1, py1); ctx.lineTo(px1 + arrowLen, py1 - 4); ctx.moveTo(px1, py1); ctx.lineTo(px1 + arrowLen, py1 + 4);
+        ctx.moveTo(px2, py2); ctx.lineTo(px2 - arrowLen, py2 - 4); ctx.moveTo(px2, py2); ctx.lineTo(px2 - arrowLen, py2 + 4);
+        ctx.stroke();
+      } else {
+        ctx.beginPath();
+        ctx.moveTo(px1, py1); ctx.lineTo(px1 - 4, py1 + arrowLen); ctx.moveTo(px1, py1); ctx.lineTo(px1 + 4, py1 + arrowLen);
+        ctx.moveTo(px2, py2); ctx.lineTo(px2 - 4, py2 - arrowLen); ctx.moveTo(px2, py2); ctx.lineTo(px2 + 4, py2 - arrowLen);
+        ctx.stroke();
+      }
+      const mx = (px1 + px2) / 2, my = (py1 + py2) / 2;
+      ctx.font = `500 9px 'Share Tech Mono', monospace`;
+      const tw = ctx.measureText(label).width;
+      ctx.fillStyle = `rgba(6,14,30,0.85)`;
+      ctx.fillRect(mx - tw/2 - 3, my - 8, tw + 6, 12);
+      ctx.fillStyle = `rgba(120,200,255,${alpha})`;
+      ctx.fillText(label, mx - tw/2, my + 1);
+    }
+    function scanLine(alpha) {
+      const y = ((t * 0.00015) % 1) * H;
+      const grad = ctx.createLinearGradient(0, y - 60, 0, y + 60);
+      grad.addColorStop(0, 'rgba(0,150,255,0)');
+      grad.addColorStop(0.5, `rgba(0,150,255,${alpha * 0.12})`);
+      grad.addColorStop(1, 'rgba(0,150,255,0)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, y - 60, W, 120);
+    }
+    function cornerFrames(alpha) {
+      const s = 80;
+      const corners = [[0,0,1,1],[W,0,-1,1],[W,H,-1,-1],[0,H,1,-1]];
+      ctx.strokeStyle = `rgba(80,160,255,${alpha})`;
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([]);
+      corners.forEach(([cx, cy, dx, dy]) => {
+        ctx.beginPath();
+        ctx.moveTo(cx + dx*s, cy); ctx.lineTo(cx, cy); ctx.lineTo(cx, cy + dy*s);
+        ctx.stroke();
+        for (let i = 1; i <= 3; i++) {
+          const tl = 8 - i * 2;
+          ctx.beginPath();
+          ctx.moveTo(cx + dx * i * 20, cy + dy * 3); ctx.lineTo(cx + dx * i * 20, cy - dy * tl); ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(cx + dx * 3, cy + dy * i * 20); ctx.lineTo(cx - dx * tl, cy + dy * i * 20); ctx.stroke();
+        }
+      });
+    }
+    function titleBlock(alpha) {
+      const bw = 220, bh = 72, bx = W - bw - 18, by = H - bh - 18;
+      ctx.strokeStyle = `rgba(60,140,255,${alpha})`;
+      ctx.lineWidth = 0.8;
+      ctx.setLineDash([]);
+      ctx.strokeRect(bx, by, bw, bh);
+      ctx.beginPath(); ctx.moveTo(bx, by + 18); ctx.lineTo(bx + bw, by + 18); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(bx + 100, by + 18); ctx.lineTo(bx + 100, by + bh); ctx.stroke();
+      ctx.font = `700 8px 'Share Tech Mono', monospace`;
+      ctx.fillStyle = `rgba(100,180,255,${alpha})`;
+      ctx.fillText('PORTFOLIO - MECH ENG', bx + 6, by + 12);
+      ctx.font = `500 7px 'Share Tech Mono', monospace`;
+      ctx.fillStyle = `rgba(70,140,220,${alpha * 0.8})`;
+      ctx.fillText('DWG NO:', bx + 6, by + 30);
+      ctx.fillText('J.G.R-2026-001', bx + 6, by + 41);
+      ctx.fillText('SCALE:', bx + 6, by + 54);
+      ctx.fillText('1:1', bx + 6, by + 64);
+      ctx.fillText('REV:', bx + 106, by + 30);
+      ctx.fillText('A', bx + 106, by + 41);
+      ctx.fillText('CLASS:', bx + 106, by + 54);
+      ctx.fillText('UNCLASSIFIED', bx + 106, by + 64);
+    }
+    function dataStreams(alpha) {
+      ctx.font = `500 8px 'Share Tech Mono', monospace`;
+      streams.forEach(s => {
+        s.y += s.speed;
+        if (s.y > 1) s.y = 0;
+        for (let i = 0; i < 8; i++) {
+          const fy = ((s.y + i * 0.04) % 1) * H;
+          const fade = 1 - i * 0.13;
+          const char = s.chars[Math.floor((t * 0.01 + i) % s.chars.length)];
+          ctx.fillStyle = `rgba(40,130,255,${alpha * s.opacity * fade})`;
+          ctx.fillText(char, s.x * W, fy);
+        }
+      });
+    }
+    function draw() {
+      t++;
+      ctx.clearRect(0, 0, W, H);
+      const baseAlpha = 0.55;
+      mainGrid(baseAlpha * 0.5);
+      hexGrid(baseAlpha * 0.18);
+      dataStreams(baseAlpha);
+      scanLine(baseAlpha);
+      dimLines.forEach(d => dimLine(d.x1, d.y1, d.x2, d.y2, d.label, baseAlpha * 0.55));
+      crosshairs.forEach(c => crosshair(c.x, c.y, c.label, c.sub, baseAlpha * 0.65));
+      cornerFrames(baseAlpha * 0.8);
+      titleBlock(baseAlpha * 0.6);
+      requestAnimationFrame(draw);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+    draw();
+  })();
+
 
   function setLang(lang){
     document.documentElement.setAttribute('data-lang',lang);
